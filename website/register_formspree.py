@@ -60,7 +60,7 @@ def trigger_verification_email(form_id: str) -> None:
     payload = {
         "name": "Faith Works Form Activation",
         "email": TARGET_EMAIL,
-        "phone": "(863) 000-0000",
+        "phone": "(863) 272-1596",
         "job_location": "Auburndale, FL",
         "service": "Land Clearing",
         "message": (
