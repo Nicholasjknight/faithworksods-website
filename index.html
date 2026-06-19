@@ -630,7 +630,12 @@
 <main>
 
     <section class="hero">
-      <div class="hero-bg" aria-hidden="true"></div>
+            <div class="hero-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 768px)" srcset="Gallery/excavator-and-truck-photo.webp" type="image/webp">
+          <img src="Gallery/photo-of-all-equipment.webp" alt="" width="1920" height="1080" fetchpriority="high" decoding="async" class="hero-bg__img">
+        </picture>
+      </div>
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="container hero-inner">
         <div class="hero-copy">

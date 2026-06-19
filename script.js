@@ -395,7 +395,7 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
 // ---- Hero parallax ----
 (function initHeroParallax() {
   const hero = document.querySelector(".hero");
-  const bg = hero && hero.querySelector(".hero-bg");
+  const bg = hero && hero.querySelector(".hero-bg__img, .hero-bg img");
   if (!hero || !bg) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 

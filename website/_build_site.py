@@ -1306,6 +1306,17 @@ def business_schema() -> str:
     return json.dumps(schema, indent=2)
 
 
+def hero_background_html(root_prefix: str = "") -> str:
+    desktop = f"{root_prefix}Gallery/{HERO_DESKTOP}"
+    mobile = f"{root_prefix}Gallery/{HERO_MOBILE}"
+    return f"""      <div class="hero-bg" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 768px)" srcset="{mobile}" type="image/webp">
+          <img src="{desktop}" alt="" width="1920" height="1080" fetchpriority="high" decoding="async" class="hero-bg__img">
+        </picture>
+      </div>"""
+
+
 def write_index() -> None:
     phase1_cards = ""
     for i, s in enumerate(PHASE1_SERVICES):
@@ -1317,7 +1328,7 @@ def write_index() -> None:
 
     body = f"""
     <section class="hero">
-      <div class="hero-bg" aria-hidden="true"></div>
+      {hero_background_html()}
       <div class="hero-overlay" aria-hidden="true"></div>
       <div class="container hero-inner">
         <div class="hero-copy">
@@ -2811,12 +2822,27 @@ def write_styles() -> None:
   isolation: isolate;
   background: #0a0a0a;
   background-image: none;
+  min-height: 92vh;
 }
 .hero-bg {
   position: absolute;
-  inset: -22% 0;
+  inset: 0;
   z-index: 0;
-  background: url("Gallery/photo-of-all-equipment.webp") center / cover no-repeat;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-bg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.hero-bg__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
   transform: translate3d(0, var(--hero-shift, 0px), 0);
   will-change: transform;
 }
@@ -2828,6 +2854,17 @@ def write_styles() -> None:
   z-index: 2;
   gap: clamp(32px, 4vw, 56px);
   max-width: none;
+}
+
+@media (max-width: 1060px) {
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(4, 9, 20, 0.93) 0%,
+      rgba(4, 9, 20, 0.84) 40%,
+      rgba(4, 9, 20, 0.58) 100%
+    ) !important;
+  }
 }
 
 @media (min-width: 1061px) {
@@ -2866,6 +2903,9 @@ def write_styles() -> None:
   .hero {
     min-height: auto;
     align-items: flex-start;
+  }
+  .hero-bg__img {
+    object-position: top center;
   }
   .hero-inner {
     padding: 36px 0 48px;
@@ -2977,10 +3017,6 @@ def write_styles() -> None:
 @media (max-width: 720px) {
   .hero {
     background-image: none;
-  }
-  .hero-bg {
-    background-image: url("Gallery/excavator-and-truck-photo.webp");
-    background-position: top center;
   }
 }
 
@@ -4468,7 +4504,7 @@ if (contactForm && contactSuccess && !heroForm) {
 // ---- Hero parallax ----
 (function initHeroParallax() {
   const hero = document.querySelector(".hero");
-  const bg = hero && hero.querySelector(".hero-bg");
+  const bg = hero && hero.querySelector(".hero-bg__img, .hero-bg img");
   if (!hero || !bg) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -4498,7 +4534,15 @@ if (contactForm && contactSuccess && !heroForm) {
   window.addEventListener("resize", queue, { passive: true });
 })();
 """
-    if "initHeroParallax" not in text:
+    if "initHeroParallax" in text:
+        import re
+        text = re.sub(
+            r"// ---- Hero parallax ----[\s\S]*?\}\)\(\);",
+            parallax_block.strip(),
+            text,
+            count=1,
+        )
+    else:
         text += parallax_block
 
     write_site_file(ROOT / "script.js", text)
