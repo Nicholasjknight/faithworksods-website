@@ -1194,7 +1194,10 @@ def estimate_form(
               {fields}
               <input type="hidden" name="_subject" value="{subj}">
               {provider_fields}
-              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+              <div class="fw-hp-field" aria-hidden="true">
+                <label for="{form_id}-gotcha">Leave this field empty</label>
+                <input type="text" id="{form_id}-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+              </div>
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-full">{submit_label}</button>
                 <p class="form-note">{footer_note}</p>
@@ -5151,6 +5154,17 @@ footer.fw-site-footer .footer-disclaimer {
 .home-services-hub-card--buyer {
   overflow: hidden;
   padding: 0;
+}
+.fw-hp-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 .form-help {
   margin-top: 6px;

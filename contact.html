@@ -619,7 +619,10 @@
 
               <input type="hidden" name="_captcha" value="false">
               <input type="hidden" name="_template" value="table">
-              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+              <div class="fw-hp-field" aria-hidden="true">
+                <label for="contact-form-gotcha">Leave this field empty</label>
+                <input type="text" id="contact-form-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+              </div>
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-full">Send Estimate Request</button>
                 <p class="form-note">Text photos to <a href="tel:8632721596">(863) 272-1596</a> for the fastest estimate.</p>
