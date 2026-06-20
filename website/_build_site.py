@@ -488,64 +488,46 @@ def area_page_href(slug: str, root_prefix: str = "") -> str:
 
 
 def nav_area_links(root_prefix: str = "") -> str:
-    branches: list[str] = []
+    groups: list[str] = []
     for county in COUNTIES:
         cities = cities_in_county(county["name"])
         if not cities:
             continue
-        sub_id = f"fw-area-{county['slug']}"
-        county_overview = (
-            f'              <li class="fw-services-mega__flyout-item fw-services-mega__flyout-item--overview">'
-            f'<a href="{area_page_href(county["slug"], root_prefix)}" role="menuitem">All {county["name"]}</a></li>'
-        )
-        flyout_items = county_overview + "\n" + "\n".join(
-            f'              <li class="fw-services-mega__flyout-item"><a href="{area_page_href(c["slug"], root_prefix)}" role="menuitem">{c["name"]}, FL</a></li>'
+        city_items = "\n".join(
+            f"""        <li class="fw-areas-mega__city">
+          <a href="{area_page_href(c["slug"], root_prefix)}" role="menuitem">{c["name"]}, FL</a>
+        </li>"""
             for c in cities
         )
-        label = county["name"].replace(" County", "")
-        branches.append(
-            f"""
-        <li class="fw-services-mega__item fw-services-mega__item--branch">
-          <button type="button" class="fw-services-mega__trigger subnav-toggle" aria-expanded="false" aria-haspopup="true" aria-controls="{sub_id}">
-            <span class="fw-services-mega__label">{label}</span>
-            <span class="fw-services-mega__chevron" aria-hidden="true"></span>
-          </button>
-          <ul class="fw-services-mega__flyout" id="{sub_id}" role="menu">
-{flyout_items}
-          </ul>
-        </li>"""
+        groups.append(
+            f"""      <li class="fw-areas-mega__group" role="none">
+        <span class="fw-areas-mega__group-label">{county["name"]}</span>
+        <ul class="fw-areas-mega__city-list" role="group" aria-label="{county["name"]} cities">
+{city_items}
+        </ul>
+        <a href="{area_page_href(county["slug"], root_prefix)}" class="fw-areas-mega__county-link" role="menuitem">All {county["name"]}</a>
+      </li>"""
         )
-    return f"""<ul class="fw-services-mega__list">
-{"".join(branches)}
-        </ul>"""
+    return f"""<ul class="fw-services-mega__list fw-areas-mega__list">
+{"".join(groups)}
+    </ul>"""
 
 
 def mobile_area_links(root_prefix: str = "") -> str:
-    lines = ['      <ul class="fw-mm-nav">']
+    lines = ['      <ul class="fw-mm-nav fw-areas-mm-nav">']
     for county in COUNTIES:
         cities = cities_in_county(county["name"])
         if not cities:
             continue
-        sub_id = f"fw-mobile-area-{county['slug']}"
-        county_link = (
-            f'          <li class="fw-mm-item"><a class="fw-mm-sublink fw-mm-sublink--overview" '
-            f'href="{area_page_href(county["slug"], root_prefix)}">All {county["name"]}</a></li>'
-        )
-        items = county_link + "\n" + "\n".join(
-            f'          <li class="fw-mm-item"><a class="fw-mm-sublink" href="{area_page_href(c["slug"], root_prefix)}">{c["name"]}, FL</a></li>'
-            for c in cities
-        )
-        label = county["name"].replace(" County", "")
         lines.append(
-            f"""      <li class="fw-mm-item fw-mm-item--branch">
-        <button type="button" class="fw-mm-trigger" aria-expanded="false" aria-controls="{sub_id}">
-          <span class="fw-mm-label">{label}</span>
-          <span class="fw-mm-chevron" aria-hidden="true"></span>
-        </button>
-        <ul class="fw-mm-submenu" id="{sub_id}" hidden>
-{items}
-        </ul>
-      </li>"""
+            f'        <li class="fw-mm-item fw-areas-mm-group"><span class="fw-areas-mm-label">{county["name"]}</span></li>'
+        )
+        for city in cities:
+            lines.append(
+                f'        <li class="fw-mm-item"><a class="fw-mm-sublink" href="{area_page_href(city["slug"], root_prefix)}">{city["name"]}, FL</a></li>'
+            )
+        lines.append(
+            f'        <li class="fw-mm-item"><a class="fw-mm-sublink fw-mm-sublink--overview" href="{area_page_href(county["slug"], root_prefix)}">All {county["name"]}</a></li>'
         )
     lines.append("      </ul>")
     return "\n".join(lines)
@@ -2886,8 +2868,88 @@ def write_styles() -> None:
   padding-left: 12px;
 }
 .fw-areas-mega {
-  min-width: 15.5rem;
-  max-width: 17.5rem;
+  min-width: 16rem;
+  max-width: 18rem;
+  max-height: min(72vh, 30rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.fw-areas-mega__list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 8px;
+}
+.fw-areas-mega__group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.fw-areas-mega__group + .fw-areas-mega__group {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(201, 162, 39, 0.14);
+}
+.fw-areas-mega__group-label {
+  display: block;
+  padding: 8px 16px 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.fw-areas-mega__city-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fw-areas-mega__city {
+  margin: 0;
+}
+.fw-areas-mega__city a,
+.fw-areas-mega__county-link {
+  display: block;
+  padding: 9px 16px 9px 17px;
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, padding-left 0.2s ease;
+}
+.fw-areas-mega__city a:hover,
+.fw-areas-mega__city a:focus-visible,
+.fw-areas-mega__county-link:hover,
+.fw-areas-mega__county-link:focus-visible {
+  color: var(--ink);
+  background: rgba(201, 162, 39, 0.1);
+  border-left-color: var(--accent);
+  padding-left: 20px;
+  outline: none;
+}
+.fw-areas-mega__county-link {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+  border-top: 1px solid rgba(201, 162, 39, 0.12);
+}
+.fw-areas-mm-nav {
+  gap: 2px;
+}
+.fw-areas-mm-group {
+  pointer-events: none;
+}
+.fw-areas-mm-label {
+  display: block;
+  padding: 10px 12px 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 .fw-areas-mega .fw-services-mega__flyout {
   min-width: 16.75rem;
