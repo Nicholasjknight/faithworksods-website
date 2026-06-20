@@ -21,14 +21,17 @@ LOGO_ICON_PNG = IMAGES / "fw-logo3-192.png"
 HERO_DESKTOP = "photo-of-all-equipment.webp"
 HERO_MOBILE = "excavator-and-truck-photo.webp"
 
-CARD_MAX = 800
-CARD_QUALITY = 70
+CARD_MAX = 640
+CARD_QUALITY = 62
 HERO_DESKTOP_MAX = 1920
-HERO_DESKTOP_QUALITY = 76
+HERO_DESKTOP_QUALITY = 74
+HERO_MOBILE_LCP_MAX = 960
+HERO_MOBILE_LCP_QUALITY = 62
 HERO_MOBILE_MAX = 1280
-HERO_MOBILE_QUALITY = 72
+HERO_MOBILE_QUALITY = 68
 GALLERY_MASTER_MAX = 1600
-GALLERY_MASTER_QUALITY = 74
+GALLERY_MASTER_QUALITY = 72
+LOGO_QUALITY = 78
 
 
 def save_webp(img: Image.Image, dest: Path, quality: int) -> None:
@@ -61,8 +64,8 @@ def optimize_logo() -> None:
 
     with Image.open(LOGO_SRC) as src:
         rgba = src.convert("RGBA")
-        save_webp(resize_max(rgba, 288), LOGO_WEBP, 86)
-        save_webp(resize_max(rgba, 144), LOGO_WEBP_144, 84)
+        save_webp(resize_max(rgba, 288), LOGO_WEBP, LOGO_QUALITY + 4)
+        save_webp(resize_max(rgba, 144), LOGO_WEBP_144, LOGO_QUALITY)
 
         icon = resize_max(rgba, 192)
         flat = Image.new("RGBA", icon.size, (0, 0, 0, 0))
@@ -85,12 +88,19 @@ def optimize_gallery_webp(path: Path, max_edge: int, quality: int) -> None:
 def optimize_heroes() -> None:
     desktop = GALLERY / HERO_DESKTOP
     mobile = GALLERY / HERO_MOBILE
+    heroes = GALLERY / "heroes"
     if desktop.exists():
         optimize_gallery_webp(desktop, HERO_DESKTOP_MAX, HERO_DESKTOP_QUALITY)
         print(f"Hero desktop -> {desktop.name} ({desktop.stat().st_size // 1024} KB)")
     if mobile.exists():
+        with Image.open(mobile) as img:
+            heroes.mkdir(parents=True, exist_ok=True)
+            lcp = resize_max(img, HERO_MOBILE_LCP_MAX)
+            lcp_dest = heroes / mobile.name
+            save_webp(lcp, lcp_dest, HERO_MOBILE_LCP_QUALITY)
+            print(f"Hero LCP mobile -> heroes/{mobile.name} ({lcp_dest.stat().st_size // 1024} KB)")
         optimize_gallery_webp(mobile, HERO_MOBILE_MAX, HERO_MOBILE_QUALITY)
-        print(f"Hero mobile -> {mobile.name} ({mobile.stat().st_size // 1024} KB)")
+        print(f"Hero mobile gallery -> {mobile.name} ({mobile.stat().st_size // 1024} KB)")
 
 
 def build_card_variants() -> None:

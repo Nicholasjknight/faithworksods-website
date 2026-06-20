@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shutil
 from datetime import date
 from pathlib import Path
@@ -13,7 +14,6 @@ from urllib.parse import quote
 from area_page_content import (
     area_intent_cards,
     area_services_by_category,
-    area_webpage_schema,
     city_area_faqs,
     city_common_jobs_section,
     city_intro_html,
@@ -173,8 +173,10 @@ GALLERY = [
     ("tractor-with-box-blade-leveling-ground.webp", "Kubota tractor with box blade leveling ground after brush clearing and cleanup", "Ditch Clearing"),
 ]
 
+ASSET_VERSION = "20260627"
 HERO_DESKTOP = "photo-of-all-equipment.webp"
 HERO_MOBILE = "excavator-and-truck-photo.webp"
+HERO_MOBILE_LCP = f"heroes/{HERO_MOBILE}"
 CONTACT_BANNER = "Gallery/equipment-photos5.webp"
 CONTACT_CUTOUT = "Images/fw-banner-cutout.webp"
 PROCESS_BG = "Gallery/tractor-with-box-blade-leveling-ground.webp"
@@ -358,6 +360,13 @@ def clean_output(text: str) -> str:
 
 def write_site_file(path: Path, text: str) -> None:
     path.write_text(clean_output(text), encoding="utf-8")
+
+
+def minify_css(css: str) -> str:
+    css = re.sub(r"/\*[\s\S]*?\*/", "", css)
+    css = re.sub(r"\s+", " ", css)
+    css = re.sub(r"\s*([{}:;,>+~])\s*", r"\1", css)
+    return css.strip()
 
 
 def fonts_head() -> str:
@@ -907,10 +916,58 @@ def faq_accordion(faqs: list[tuple[str, str]], prefix: str) -> str:
           </div>"""
 
 
-def faq_page_schema(faqs: list[tuple[str, str]]) -> str:
-    return json.dumps({
-        "@context": "https://schema.org",
+def page_url(path: str) -> str:
+    path = path.removeprefix("/")
+    if path in ("", "index.html"):
+        return f"{SITE['url']}/"
+    return f"{SITE['url']}/{path}"
+
+
+def schema_asset_url(relative_path: str) -> str:
+    return f"{SITE['url'].rstrip('/')}/{relative_path.lstrip('/')}"
+
+
+def schema_dict(value: str | dict) -> dict:
+    if isinstance(value, dict):
+        data = value
+    else:
+        data = json.loads(value)
+    return {k: v for k, v in data.items() if k != "@context"}
+
+
+def schema_graph_block(*parts: str | dict) -> str:
+    graph: list[dict] = []
+    for part in parts:
+        node = schema_dict(part)
+        if "@graph" in node:
+            graph.extend(node["@graph"])
+        else:
+            graph.append(node)
+    payload = {"@context": "https://schema.org", "@graph": graph}
+    return f'  <script type="application/ld+json">{json.dumps(payload, indent=2)}</script>'
+
+
+def breadcrumb_node(items: list[tuple[str, str]], path: str) -> dict:
+    return {
+        "@type": "BreadcrumbList",
+        "@id": f"{page_url(path)}#breadcrumb",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": i,
+                "name": name,
+                "item": page_url(item_path),
+            }
+            for i, (name, item_path) in enumerate(items, start=1)
+        ],
+    }
+
+
+def faq_node(faqs: list[tuple[str, str]], path: str) -> dict:
+    return {
         "@type": "FAQPage",
+        "@id": f"{page_url(path)}#faq",
+        "url": page_url(path),
         "mainEntity": [
             {
                 "@type": "Question",
@@ -919,37 +976,101 @@ def faq_page_schema(faqs: list[tuple[str, str]]) -> str:
             }
             for question, answer in faqs
         ],
-    }, indent=2)
+    }
 
 
-def breadcrumb_schema(items: list[tuple[str, str]]) -> str:
-    return json.dumps({
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
+def webpage_node(
+    name: str,
+    description: str,
+    path: str,
+    page_type: str | list[str] = "WebPage",
+    about: dict | None = None,
+    main_entity: dict | str | None = None,
+    primary_image_id: str | None = None,
+    include_breadcrumb: bool = True,
+) -> dict:
+    types = page_type if isinstance(page_type, list) else [page_type]
+    node: dict = {
+        "@type": types if len(types) > 1 else types[0],
+        "@id": f"{page_url(path)}#webpage",
+        "url": page_url(path),
+        "name": name,
+        "description": description,
+        "isPartOf": {"@id": f"{SITE['url']}/#website"},
+        "publisher": {"@id": f"{SITE['url']}/#business"},
+        "inLanguage": "en-US",
+    }
+    if include_breadcrumb:
+        node["breadcrumb"] = {"@id": f"{page_url(path)}#breadcrumb"}
+    if about:
+        node["about"] = about
+    if main_entity:
+        node["mainEntity"] = main_entity
+    if primary_image_id:
+        node["primaryImageOfPage"] = {"@id": primary_image_id}
+    return node
+
+
+def item_list_node(name: str, path: str, items: list[tuple[str, str]], list_id: str = "list") -> dict:
+    return {
+        "@type": "ItemList",
+        "@id": f"{page_url(path)}#{list_id}",
+        "name": name,
         "itemListElement": [
             {
                 "@type": "ListItem",
                 "position": i,
-                "name": name,
-                "item": SITE["url"] if path == "index.html" else f"{SITE['url']}/{path}",
+                "name": label,
+                "url": page_url(item_path),
             }
-            for i, (name, path) in enumerate(items, start=1)
+            for i, (label, item_path) in enumerate(items, start=1)
         ],
-    }, indent=2)
+    }
+
+
+def city_place_node(city: dict) -> dict:
+    path = f"areas/{city['slug']}.html"
+    return {
+        "@type": "City",
+        "@id": f"{page_url(path)}#place",
+        "name": f"{city['name']}, FL",
+        "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": city["county"],
+        },
+    }
+
+
+def county_place_node(county: dict) -> dict:
+    path = f"areas/{county['slug']}.html"
+    return {
+        "@type": "AdministrativeArea",
+        "@id": f"{page_url(path)}#place",
+        "name": county["name"],
+    }
+
+
+def faq_page_schema(faqs: list[tuple[str, str]], path: str = "index.html") -> str:
+    return json.dumps(faq_node(faqs, path), indent=2)
+
+
+def breadcrumb_schema(items: list[tuple[str, str]], path: str = "index.html") -> str:
+    return json.dumps(breadcrumb_node(items, path), indent=2)
 
 
 def service_schema(s: dict) -> str:
+    path = f"{s['slug']}.html"
     return json.dumps({
         "@context": "https://schema.org",
         "@type": "Service",
-        "@id": f"{SITE['url']}/{s['slug']}.html#service",
+        "@id": f"{page_url(path)}#service",
         "name": s["name"],
         "serviceType": s["keyword"],
         "category": category_label(s["category"]),
         "description": s["desc"],
-        "url": f"{SITE['url']}/{s['slug']}.html",
-        "mainEntityOfPage": f"{SITE['url']}/{s['slug']}.html",
-        "image": public_asset_url(f"Gallery/{s['mosaic_image']}"),
+        "url": page_url(path),
+        "mainEntityOfPage": {"@id": f"{page_url(path)}#webpage"},
+        "image": schema_asset_url(f"Gallery/{s['mosaic_image']}"),
         "provider": {"@id": f"{SITE['url']}/#business"},
         "areaServed": [{"@type": "City", "name": f"{city}, FL"} for city in CITY_NAMES],
     }, indent=2)
@@ -1295,7 +1416,7 @@ def page_shell(
     canonical_url = f"{SITE['url']}/" if canonical == "index.html" else f"{SITE['url']}/{canonical}"
     hero_preloads = ""
     if preload_hero:
-        hero_preloads = f"""  <link rel="preload" as="image" href="{root_prefix}Gallery/{HERO_MOBILE}" fetchpriority="high" media="(max-width: 768px)">
+        hero_preloads = f"""  <link rel="preload" as="image" href="{root_prefix}Gallery/{HERO_MOBILE_LCP}" fetchpriority="high" media="(max-width: 768px)">
   <link rel="preload" as="image" href="{root_prefix}Gallery/{HERO_DESKTOP}" fetchpriority="high" media="(min-width: 769px)">"""
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -1328,8 +1449,11 @@ def page_shell(
 {favicon_head(root_prefix)}
 {fonts_head()}
 {hero_preloads}
-  <link rel="stylesheet" href="{root_prefix}styles.css?v=20260626">
+  <link rel="preload" href="{root_prefix}styles.css?v={ASSET_VERSION}" as="style">
+  <link rel="preload" href="{root_prefix}script.js" as="script">
+  <link rel="stylesheet" href="{root_prefix}styles.css?v={ASSET_VERSION}">
 {analytics_head()}
+  <script defer src="{root_prefix}script.js"></script>
 </head>
 <body>
 {header(current, root_prefix)}
@@ -1337,7 +1461,13 @@ def page_shell(
 {body}
 </main>
 {footer(root_prefix)}
-  <script src="{root_prefix}script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {{
+      window.addEventListener("load", function () {{
+        navigator.serviceWorker.register("{root_prefix}sw.js").catch(function () {{}});
+      }});
+    }}
+  </script>
 </body>
 </html>"""
 
@@ -1361,10 +1491,30 @@ def business_schema() -> str:
             "@type": "PostalAddress",
             "addressLocality": SITE["city"],
             "addressRegion": SITE["region"],
+            "postalCode": HOME_ZIP,
             "addressCountry": "US",
         },
-        "image": public_asset_url(f"Gallery/{HERO_DESKTOP}"),
-        "logo": public_asset_url(LOGO),
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": SITE["geo_lat"],
+            "longitude": SITE["geo_lng"],
+        },
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": f"+1-{SITE['phone_tel'][:3]}-{SITE['phone_tel'][3:6]}-{SITE['phone_tel'][6:]}",
+                "contactType": "customer service",
+                "email": SITE["email"],
+                "areaServed": "US-FL",
+                "availableLanguage": ["English"],
+            }
+        ],
+        "founder": {
+            "@type": "Person",
+            "name": SITE["owner"],
+        },
+        "image": schema_asset_url(f"Gallery/{HERO_DESKTOP}"),
+        "logo": schema_asset_url(LOGO),
         "priceRange": "$$",
         "openingHours": "Mo-Sa 07:00-18:00",
         "areaServed": county_areas + areas,
@@ -1397,26 +1547,23 @@ def website_schema() -> str:
         "@id": f"{SITE['url']}/#website",
         "url": f"{SITE['url']}/",
         "name": SITE["brand"],
+        "description": f"{SITE['brand']} - {SITE_POSITIONING} in {SITE['area']}.",
         "publisher": {"@id": f"{SITE['url']}/#business"},
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": f"{SITE['url']}/services.html?q={{search_term_string}}",
-            "query-input": "required name=search_term_string",
-        },
+        "inLanguage": "en-US",
     }, indent=2)
 
 
 def image_object_schema(image: str, caption: str, page: str) -> str:
-    page_url = f"{SITE['url']}/" if page == "index.html" else f"{SITE['url']}/{page}"
+    image_url = schema_asset_url(f"Gallery/{image}")
     return json.dumps({
         "@context": "https://schema.org",
         "@type": "ImageObject",
-        "@id": f"{SITE['url']}/Gallery/{image}#image",
-        "contentUrl": public_asset_url(f"Gallery/{image}"),
-        "url": public_asset_url(f"Gallery/{image}"),
+        "@id": f"{image_url}#image",
+        "contentUrl": image_url,
+        "url": image_url,
         "caption": caption,
         "representativeOfPage": page == "index.html",
-        "mainEntityOfPage": page_url,
+        "mainEntityOfPage": {"@id": f"{page_url(page)}#webpage"},
         "creator": {"@id": f"{SITE['url']}/#business"},
     }, indent=2)
 
@@ -1427,8 +1574,9 @@ def gallery_image_graph_schema() -> str:
         "@graph": [
             {
                 "@type": "ImageObject",
-                "@id": f"{SITE['url']}/Gallery/{img}#image",
-                "contentUrl": public_asset_url(f"Gallery/{img}"),
+                "@id": f"{schema_asset_url(f'Gallery/{img}')}#image",
+                "contentUrl": schema_asset_url(f"Gallery/{img}"),
+                "url": schema_asset_url(f"Gallery/{img}"),
                 "caption": alt,
                 "name": label,
                 "creator": {"@id": f"{SITE['url']}/#business"},
@@ -1440,7 +1588,7 @@ def gallery_image_graph_schema() -> str:
 
 def hero_background_html(root_prefix: str = "") -> str:
     desktop = f"{root_prefix}Gallery/{HERO_DESKTOP}"
-    mobile = f"{root_prefix}Gallery/{HERO_MOBILE}"
+    mobile = f"{root_prefix}Gallery/{HERO_MOBILE_LCP}"
     return f"""      <div class="hero-bg" aria-hidden="true">
         <picture>
           <source media="(max-width: 768px)" srcset="{mobile}" type="image/webp">
@@ -1466,10 +1614,20 @@ def write_index() -> None:
     for i, s in enumerate(PHASE1_SERVICES):
         phase1_cards += service_mosaic_card(s, i * 70, featured=True)
 
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{website_schema()}</script>
-  <script type="application/ld+json">{image_object_schema(HERO_DESKTOP, "Faith Works Outdoor Services equipment in Polk County, Florida", "index.html")}</script>
-  <script type="application/ld+json">{faq_page_schema(HOME_FAQS)}</script>"""
+    schema = schema_graph_block(
+        business_schema(),
+        website_schema(),
+        image_object_schema(HERO_DESKTOP, "Faith Works Outdoor Services equipment in Polk County, Florida", "index.html"),
+        webpage_node(
+            f"{SITE['city']} Land Clearing & Outdoor Services | Faith Works",
+            f"{SITE['brand']} provides land clearing, pond bank clearing, ditch clearing, brush cutting, debris removal, and tractor work in Polk County, FL.",
+            "index.html",
+            main_entity={"@id": f"{page_url('index.html')}#faq"},
+            primary_image_id=f"{schema_asset_url(f'Gallery/{HERO_DESKTOP}')}#image",
+        ),
+        breadcrumb_node([("Home", "index.html")], "index.html"),
+        faq_node(HOME_FAQS, "index.html"),
+    )
 
     body = f"""
     <section class="hero">
@@ -1591,10 +1749,19 @@ def write_service_page(s: dict) -> None:
     faqs = service_faqs(s)
     service_faq_block = faq_accordion(faqs, s["slug"])
     phase_badge = '<p class="phase-badge">Core Service</p>' if s.get("phase1") else ""
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{service_schema(s)}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Services', 'services.html'), (s['name'], s['slug'] + '.html')])}</script>
-  <script type="application/ld+json">{faq_page_schema(faqs)}</script>"""
+    path = f"{s['slug']}.html"
+    schema = schema_graph_block(
+        business_schema(),
+        service_schema(s),
+        webpage_node(
+            s["title"],
+            s["desc"],
+            path,
+            main_entity={"@id": f"{page_url(path)}#service"},
+        ),
+        breadcrumb_node([("Home", "index.html"), ("Services", "services.html"), (s["name"], path)], path),
+        faq_node(faqs, path),
+    )
 
     body = f"""
     <section class="sp-hero">
@@ -1653,23 +1820,23 @@ def write_services() -> None:
     directory = ""
     for cat in SERVICE_CATEGORIES:
         directory += service_directory_group(cat)
-    service_list_schema = json.dumps({
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": f"{SITE['brand']} services",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": i,
-                "name": item["name"],
-                "url": f"{SITE['url']}/{item['slug']}.html",
-            }
-            for i, item in enumerate(SERVICES, start=1)
-        ],
-    }, indent=2)
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Services', 'services.html')])}</script>
-  <script type="application/ld+json">{service_list_schema}</script>"""
+    services_path = "services.html"
+    services_title = "Outdoor Property Services in Polk County FL | Faith Works"
+    services_desc = f"Full service list for {SITE['brand']} — {SITE_POSITIONING} in Polk County, FL."
+    service_items = [(item["name"], f"{item['slug']}.html") for item in SERVICES]
+    schema = schema_graph_block(
+        business_schema(),
+        website_schema(),
+        webpage_node(
+            services_title,
+            services_desc,
+            services_path,
+            page_type=["WebPage", "CollectionPage"],
+            main_entity={"@id": f"{page_url(services_path)}#services"},
+        ),
+        breadcrumb_node([("Home", "index.html"), ("Services", services_path)], services_path),
+        item_list_node(f"{SITE['brand']} services", services_path, service_items, "services"),
+    )
 
     body = f"""
     <section class="sp-hero">
@@ -1736,9 +1903,20 @@ def write_gallery() -> None:
             <img src="Gallery/{img}" alt="{alt}" loading="lazy" width="800" height="600">
             <figcaption>{label}</figcaption>
           </figure>"""
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Gallery', 'gallery.html')])}</script>
-  <script type="application/ld+json">{gallery_image_graph_schema()}</script>"""
+    gallery_path = "gallery.html"
+    gallery_title = f"Outdoor Services Project Gallery | {SITE['brand']}"
+    gallery_desc = f"View land clearing, brush cutting, tractor work, and outdoor property cleanup projects by {SITE['brand']} in Polk County, FL."
+    schema = schema_graph_block(
+        business_schema(),
+        gallery_image_graph_schema(),
+        webpage_node(
+            gallery_title,
+            gallery_desc,
+            gallery_path,
+            page_type=["WebPage", "CollectionPage"],
+        ),
+        breadcrumb_node([("Home", "index.html"), ("Gallery", gallery_path)], gallery_path),
+    )
     body = f"""
     <section class="sp-hero">
       <div class="container">
@@ -1799,20 +1977,45 @@ def write_about() -> None:
         </div>
       </div>
     </section>"""
+    about_path = "about.html"
+    about_title = f"About {SITE['owner']} | {SITE['brand']}"
+    about_desc = f"Meet {SITE['owner']}, owner of {SITE['brand']} — {SITE_POSITIONING} in Polk County, FL."
+    schema = schema_graph_block(
+        business_schema(),
+        webpage_node(
+            about_title,
+            about_desc,
+            about_path,
+            page_type=["WebPage", "AboutPage"],
+            about={"@id": f"{SITE['url']}/#business"},
+        ),
+        breadcrumb_node([("Home", "index.html"), ("About", about_path)], about_path),
+    )
     html = page_shell(
-        f"About {SITE['owner']} | {SITE['brand']}",
-        f"Meet {SITE['owner']}, owner of {SITE['brand']} — {SITE_POSITIONING} in Polk County, FL.",
-        "about.html",
+        about_title,
+        about_desc,
+        about_path,
         body,
-        "",
+        schema,
         "about.html",
     )
     write_site_file(ROOT / "about.html", html)
 
 
 def write_contact() -> None:
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Contact', 'contact.html')])}</script>"""
+    contact_path = "contact.html"
+    contact_title = f"Contact {SITE['brand']} | Free Outdoor Services Estimate"
+    contact_desc = f"Request a free photo-based estimate for {SITE_POSITIONING.lower()} in Polk County, FL."
+    schema = schema_graph_block(
+        business_schema(),
+        webpage_node(
+            contact_title,
+            contact_desc,
+            contact_path,
+            page_type=["WebPage", "ContactPage"],
+        ),
+        breadcrumb_node([("Home", "index.html"), ("Contact", contact_path)], contact_path),
+    )
     body = f"""
     <section class="sp-hero">
       <div class="container">
@@ -1899,10 +2102,27 @@ def write_city_area_page(city: dict, areas_dir: Path) -> None:
     service_groups = area_services_by_category(root_prefix, name)
     intent_cards = area_intent_cards(root_prefix, name, INTENT_ROUTES)
     all_service_links = area_service_links(root_prefix)
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Service Areas', 'service-areas.html'), (f"{name}, FL", canonical)])}</script>
-  <script type="application/ld+json">{faq_page_schema(faqs)}</script>
-  <script type="application/ld+json">{area_webpage_schema(f"{name}, FL Outdoor Property Services", desc, canonical)}</script>"""
+    schema = schema_graph_block(
+        business_schema(),
+        city_place_node(city),
+        webpage_node(
+            f"{name}, FL Outdoor Property Services | {SITE['brand']}",
+            desc,
+            canonical,
+            about={"@id": f"{page_url(canonical)}#place"},
+            main_entity={"@id": f"{page_url(canonical)}#faq"},
+        ),
+        breadcrumb_node(
+            [
+                ("Home", "index.html"),
+                ("Service Areas", "service-areas.html"),
+                (city["county"], f"areas/{county['slug']}.html"),
+                (f"{name}, FL", canonical),
+            ],
+            canonical,
+        ),
+        faq_node(faqs, canonical),
+    )
     body = f"""
     <section class="sp-hero">
       <div class="container">
@@ -1989,10 +2209,24 @@ def write_county_area_page(county: dict, areas_dir: Path) -> None:
     intent_cards = area_intent_cards(root_prefix, county["name"], INTENT_ROUTES)
     all_service_links = area_service_links(root_prefix)
     nearby_counties = nearby_counties_html(county["name"], root_prefix)
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Service Areas', 'service-areas.html'), (county['name'], canonical)])}</script>
-  <script type="application/ld+json">{faq_page_schema(faqs)}</script>
-  <script type="application/ld+json">{area_webpage_schema(f"{county['name']} Outdoor Property Services", desc, canonical)}</script>"""
+    city_items = [(f"{c['name']}, FL", f"areas/{c['slug']}.html") for c in cities]
+    schema = schema_graph_block(
+        business_schema(),
+        county_place_node(county),
+        webpage_node(
+            f"{county['name']} Outdoor Property Services | {SITE['brand']}",
+            desc,
+            canonical,
+            about={"@id": f"{page_url(canonical)}#place"},
+            main_entity={"@id": f"{page_url(canonical)}#faq"},
+        ),
+        breadcrumb_node(
+            [("Home", "index.html"), ("Service Areas", "service-areas.html"), (county["name"], canonical)],
+            canonical,
+        ),
+        faq_node(faqs, canonical),
+        item_list_node(f"Cities in {county['name']}", canonical, city_items, "cities"),
+    )
     body = f"""
     <section class="sp-hero">
       <div class="container">
@@ -2083,8 +2317,23 @@ def write_service_areas() -> None:
             <a class="area-card-cta" href="{city_href(city['slug'])}">View {city['name']} services &rarr;</a>
           </article>"""
 
-    schema = f"""  <script type="application/ld+json">{business_schema()}</script>
-  <script type="application/ld+json">{breadcrumb_schema([('Home', 'index.html'), ('Service Areas', 'service-areas.html')])}</script>"""
+    areas_path = "service-areas.html"
+    areas_title = f"Polk County Service Areas | {SITE['brand']}"
+    areas_desc = f"{SITE['brand']} serves Auburndale, Winter Haven, Lakeland, Lake Alfred, Bartow, Haines City, Davenport, Lake Wales, Polk City, and Plant City, FL."
+    area_items = [(county["name"], f"areas/{county['slug']}.html") for county in COUNTIES]
+    area_items.extend((f"{city['name']}, FL", f"areas/{city['slug']}.html") for city in AREA_CITIES)
+    schema = schema_graph_block(
+        business_schema(),
+        webpage_node(
+            areas_title,
+            areas_desc,
+            areas_path,
+            page_type=["WebPage", "CollectionPage"],
+            main_entity={"@id": f"{page_url(areas_path)}#areas"},
+        ),
+        breadcrumb_node([("Home", "index.html"), ("Service Areas", areas_path)], areas_path),
+        item_list_node("Faith Works service areas", areas_path, area_items, "areas"),
+    )
     body = f"""
     <section class="sp-hero">
       <div class="container">
@@ -2153,9 +2402,17 @@ def write_privacy() -> None:
       <p>We do not sell personal information. Analytics tools may collect anonymous usage data to improve the website.</p>
       <p>Questions? Contact <a href="mailto:{SITE['email']}">{SITE['email']}</a>.</p>
     </div></section>"""
+    privacy_path = "privacy-policy.html"
+    privacy_title = "Privacy Policy"
+    privacy_desc = f"Privacy policy for {SITE['brand']}."
+    schema = schema_graph_block(
+        business_schema(),
+        webpage_node(privacy_title, privacy_desc, privacy_path),
+        breadcrumb_node([("Home", "index.html"), ("Privacy Policy", privacy_path)], privacy_path),
+    )
     write_site_file(
         ROOT / "privacy-policy.html",
-        page_shell("Privacy Policy", f"Privacy policy for {SITE['brand']}.", "privacy-policy.html", body),
+        page_shell(privacy_title, privacy_desc, privacy_path, body, schema),
     )
 
 
@@ -2200,7 +2457,7 @@ def write_styles() -> None:
     src = src.replace("#aac8df", "#d4c4a0")
     src = src.replace("--container:     1200px;", "--container:     1400px;")
     src = src.replace('url("Images/ScreenTeamBanner.webp")', f'url("Gallery/{HERO_DESKTOP}")')
-    src = src.replace('url("Images/ScreenTeamBanner-mobile.webp")', f'url("Gallery/{HERO_MOBILE}")')
+    src = src.replace('url("Images/ScreenTeamBanner-mobile.webp")', f'url("Gallery/{HERO_MOBILE_LCP}")')
     src = src.replace('url("Images/service-hero-bg.jpg")', f'url("Gallery/{HERO_DESKTOP}")')
     src = src.replace(
         ".contact-section {\n  background: linear-gradient(135deg, #08152a 0%, #060f1c 100%);",
@@ -4915,7 +5172,53 @@ footer.fw-site-footer .footer-disclaimer {
 }
 
 """
-    write_site_file(ROOT / "styles.css", src + extra)
+    write_site_file(ROOT / "styles.css", minify_css(src + extra))
+
+
+def write_sw() -> None:
+    sw = f"""/* Faith Works static asset cache v{ASSET_VERSION} */
+"use strict";
+const CACHE = "fw-static-{ASSET_VERSION}";
+
+self.addEventListener("install", (event) => {{
+  self.skipWaiting();
+}});
+
+self.addEventListener("activate", (event) => {{
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))
+    ).then(() => self.clients.claim())
+  );
+}});
+
+self.addEventListener("fetch", (event) => {{
+  const {{ request }} = event;
+  if (request.method !== "GET") return;
+  let url;
+  try {{
+    url = new URL(request.url);
+  }} catch {{
+    return;
+  }}
+  if (url.origin !== self.location.origin) return;
+  if (!/\\.(webp|png|jpe?g|css|js|woff2?)$/i.test(url.pathname)) return;
+
+  event.respondWith(
+    caches.open(CACHE).then(async (cache) => {{
+      const cached = await cache.match(request);
+      const network = fetch(request).then((response) => {{
+        if (response && response.ok) {{
+          cache.put(request, response.clone());
+        }}
+        return response;
+      }});
+      return cached || network;
+    }})
+  );
+}});
+"""
+    write_site_file(ROOT / "sw.js", sw)
 
 
 def patch_script() -> None:
@@ -4973,15 +5276,20 @@ if (contactForm && contactSuccess && !heroForm) {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   let restTop = 0;
+  let headerHeight = 0;
   let ticking = false;
   const rate = 0.45;
+
+  function measureHeader() {
+    const header = document.querySelector(".site-header");
+    headerHeight = header ? header.offsetHeight : 0;
+  }
 
   function update() {
     ticking = false;
     const rect = hero.getBoundingClientRect();
     if (window.scrollY < 2) {
-      const header = document.querySelector(".site-header");
-      restTop = header ? header.getBoundingClientRect().height : rect.top;
+      restTop = headerHeight || rect.top;
     }
     const shift = -(rect.top - restTop) * rate;
     bg.style.setProperty("--hero-shift", Math.round(shift) + "px");
@@ -4993,16 +5301,69 @@ if (contactForm && contactSuccess && !heroForm) {
     requestAnimationFrame(update);
   }
 
-  update();
+  function init() {
+    measureHeader();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
   window.addEventListener("scroll", queue, { passive: true });
-  window.addEventListener("resize", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureHeader();
+    queue();
+  }, { passive: true });
+})();
+
+(function initProcessParallax() {
+  const section = document.querySelector(".process-section--parallax");
+  const bgImg = section && section.querySelector(".process-bg__img");
+  if (!section || !bgImg) return;
+  if (prefersReducedMotion()) return;
+
+  let ticking = false;
+  let maxShift = 0;
+  const rate = Number(section.dataset.parallaxRate) || 0.78;
+  const overscanRatio = Number(section.dataset.parallaxOverscan) || 0.38;
+
+  function measureSection() {
+    maxShift = section.offsetHeight * overscanRatio;
+  }
+
+  function clampShift(shift, limit) {
+    return Math.round(Math.max(-limit, Math.min(limit, shift)));
+  }
+
+  function update() {
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const anchor = window.innerHeight * 0.5;
+    const shift = -(rect.top - anchor) * rate;
+    bgImg.style.setProperty("--fw-band-shift", clampShift(shift, maxShift) + "px");
+  }
+
+  function queue() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    measureSection();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureSection();
+    queue();
+  }, { passive: true });
 })();
 """
     if "initHeroParallax" in text:
-        import re
         text = re.sub(
-            r"// ---- Hero parallax ----[\s\S]*?\}\)\(\);",
-            parallax_block.strip(),
+            r"// ---- Hero parallax ----[\s\S]*?\}\)\(\);\s*(?=\(function initProcessParallax|\Z)",
+            parallax_block.strip() + "\n",
             text,
             count=1,
         )
@@ -5043,6 +5404,7 @@ def main() -> None:
     optimize_images()
     sync_logo()
     write_styles()
+    write_sw()
     patch_script()
     write_index()
     write_services()
@@ -5059,6 +5421,10 @@ def main() -> None:
     write_robots()
     write_cname()
     cleanup_obsolete_pages()
+    from verify_schema import main as verify_schema
+
+    if verify_schema() != 0:
+        raise SystemExit("Schema verification failed after build.")
     print(f"Built Faith Works website in {ROOT} ({SERVICE_COUNT} services)")
 
 

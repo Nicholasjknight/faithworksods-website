@@ -33,9 +33,12 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"></noscript>
 
-  <link rel="stylesheet" href="styles.css?v=20260626">
+  <link rel="preload" href="styles.css?v=20260627" as="style">
+  <link rel="preload" href="script.js" as="script">
+  <link rel="stylesheet" href="styles.css?v=20260627">
 
 
+  <script defer src="script.js"></script>
 </head>
 <body>
   <header class="site-header" id="top">
@@ -478,6 +481,12 @@
       <p>Faith Works Outdoor Services LLC</p>
     </div>
   </nav>
-  <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function () {});
+      });
+    }
+  </script>
 </body>
 </html>

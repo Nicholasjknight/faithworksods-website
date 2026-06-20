@@ -361,6 +361,8 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
   if (!cards.length) return;
 
   let index = 0;
+  let cardWidth = 0;
+  const gap = 18;
 
   function perView() {
     if (window.innerWidth < 720) return 1;
@@ -387,19 +389,26 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
     }
   }
 
+  function measureCards() {
+    cardWidth = cards[0] ? cards[0].offsetWidth : 0;
+  }
+
   function update() {
     const pages = pageCount();
     index = Math.max(0, Math.min(index, pages - 1));
-    const sample = cards[0];
-    const gap = 18;
-    const width = sample ? sample.getBoundingClientRect().width : 0;
-    const offset = index * (width + gap) * perView();
+    const offset = index * (cardWidth + gap) * perView();
     track.style.transform = "translateX(" + -offset + "px)";
     Array.from(dotsWrap.children).forEach((dot, dotIndex) => {
       dot.classList.toggle("is-active", dotIndex === index);
     });
     prev.disabled = index === 0;
     next.disabled = index === pages - 1;
+  }
+
+  function onResize() {
+    measureCards();
+    renderDots();
+    update();
   }
 
   prev.addEventListener("click", () => {
@@ -410,13 +419,16 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
     index += 1;
     update();
   });
-  window.addEventListener("resize", () => {
+  window.addEventListener("resize", onResize);
+  if (typeof ResizeObserver !== "undefined" && cards[0]) {
+    new ResizeObserver(onResize).observe(cards[0]);
+  }
+
+  requestAnimationFrame(() => {
+    measureCards();
     renderDots();
     update();
   });
-
-  renderDots();
-  update();
 })();
 
 // ---- Hero parallax ----
@@ -427,15 +439,20 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   let restTop = 0;
+  let headerHeight = 0;
   let ticking = false;
   const rate = 0.45;
+
+  function measureHeader() {
+    const header = document.querySelector(".site-header");
+    headerHeight = header ? header.offsetHeight : 0;
+  }
 
   function update() {
     ticking = false;
     const rect = hero.getBoundingClientRect();
     if (window.scrollY < 2) {
-      const header = document.querySelector(".site-header");
-      restTop = header ? header.getBoundingClientRect().height : rect.top;
+      restTop = headerHeight || rect.top;
     }
     const shift = -(rect.top - restTop) * rate;
     bg.style.setProperty("--hero-shift", Math.round(shift) + "px");
@@ -447,9 +464,17 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
     requestAnimationFrame(update);
   }
 
-  update();
+  function init() {
+    measureHeader();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
   window.addEventListener("scroll", queue, { passive: true });
-  window.addEventListener("resize", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureHeader();
+    queue();
+  }, { passive: true });
 })();
 
 (function initProcessParallax() {
@@ -459,19 +484,22 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
   if (prefersReducedMotion()) return;
 
   let ticking = false;
+  let maxShift = 0;
   const rate = Number(section.dataset.parallaxRate) || 0.78;
   const overscanRatio = Number(section.dataset.parallaxOverscan) || 0.38;
 
-  function clampShift(shift, maxShift) {
-    return Math.round(Math.max(-maxShift, Math.min(maxShift, shift)));
+  function measureSection() {
+    maxShift = section.offsetHeight * overscanRatio;
+  }
+
+  function clampShift(shift, limit) {
+    return Math.round(Math.max(-limit, Math.min(limit, shift)));
   }
 
   function update() {
     ticking = false;
-    const vh = Math.max(window.innerHeight, 1);
     const rect = section.getBoundingClientRect();
-    const maxShift = section.offsetHeight * overscanRatio;
-    const anchor = vh * 0.5;
+    const anchor = window.innerHeight * 0.5;
     const shift = -(rect.top - anchor) * rate;
     bgImg.style.setProperty("--fw-band-shift", clampShift(shift, maxShift) + "px");
   }
@@ -482,7 +510,150 @@ document.querySelectorAll(".mobile-services-toggle").forEach((toggle) => {
     requestAnimationFrame(update);
   }
 
-  update();
+  function init() {
+    measureSection();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
   window.addEventListener("scroll", queue, { passive: true });
-  window.addEventListener("resize", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureSection();
+    queue();
+  }, { passive: true });
+})();
+(function initProcessParallax() {
+  const section = document.querySelector(".process-section--parallax");
+  const bgImg = section && section.querySelector(".process-bg__img");
+  if (!section || !bgImg) return;
+  if (prefersReducedMotion()) return;
+
+  let ticking = false;
+  let maxShift = 0;
+  const rate = Number(section.dataset.parallaxRate) || 0.78;
+  const overscanRatio = Number(section.dataset.parallaxOverscan) || 0.38;
+
+  function measureSection() {
+    maxShift = section.offsetHeight * overscanRatio;
+  }
+
+  function clampShift(shift, limit) {
+    return Math.round(Math.max(-limit, Math.min(limit, shift)));
+  }
+
+  function update() {
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const anchor = window.innerHeight * 0.5;
+    const shift = -(rect.top - anchor) * rate;
+    bgImg.style.setProperty("--fw-band-shift", clampShift(shift, maxShift) + "px");
+  }
+
+  function queue() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    measureSection();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureSection();
+    queue();
+  }, { passive: true });
+})();
+(function initProcessParallax() {
+  const section = document.querySelector(".process-section--parallax");
+  const bgImg = section && section.querySelector(".process-bg__img");
+  if (!section || !bgImg) return;
+  if (prefersReducedMotion()) return;
+
+  let ticking = false;
+  let maxShift = 0;
+  const rate = Number(section.dataset.parallaxRate) || 0.78;
+  const overscanRatio = Number(section.dataset.parallaxOverscan) || 0.38;
+
+  function measureSection() {
+    maxShift = section.offsetHeight * overscanRatio;
+  }
+
+  function clampShift(shift, limit) {
+    return Math.round(Math.max(-limit, Math.min(limit, shift)));
+  }
+
+  function update() {
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const anchor = window.innerHeight * 0.5;
+    const shift = -(rect.top - anchor) * rate;
+    bgImg.style.setProperty("--fw-band-shift", clampShift(shift, maxShift) + "px");
+  }
+
+  function queue() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    measureSection();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureSection();
+    queue();
+  }, { passive: true });
+})();
+(function initProcessParallax() {
+  const section = document.querySelector(".process-section--parallax");
+  const bgImg = section && section.querySelector(".process-bg__img");
+  if (!section || !bgImg) return;
+  if (prefersReducedMotion()) return;
+
+  let ticking = false;
+  let maxShift = 0;
+  const rate = Number(section.dataset.parallaxRate) || 0.78;
+  const overscanRatio = Number(section.dataset.parallaxOverscan) || 0.38;
+
+  function measureSection() {
+    maxShift = section.offsetHeight * overscanRatio;
+  }
+
+  function clampShift(shift, limit) {
+    return Math.round(Math.max(-limit, Math.min(limit, shift)));
+  }
+
+  function update() {
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const anchor = window.innerHeight * 0.5;
+    const shift = -(rect.top - anchor) * rate;
+    bgImg.style.setProperty("--fw-band-shift", clampShift(shift, maxShift) + "px");
+  }
+
+  function queue() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }
+
+  function init() {
+    measureSection();
+    requestAnimationFrame(queue);
+  }
+
+  window.addEventListener("load", init, { once: true });
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", () => {
+    measureSection();
+    queue();
+  }, { passive: true });
 })();
