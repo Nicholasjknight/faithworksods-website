@@ -88,7 +88,7 @@ def slugify(name: str) -> str:
     return stem
 
 
-def save_webp(img: Image.Image, dest: Path, max_width: int = 1920, quality: int = 82) -> None:
+def save_webp(img: Image.Image, dest: Path, max_width: int = 1600, quality: int = 74) -> None:
     if img.mode not in ("RGB", "RGBA"):
         img = img.convert("RGB")
     if img.width > max_width:

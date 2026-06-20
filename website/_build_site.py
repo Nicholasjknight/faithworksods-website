@@ -56,18 +56,32 @@ from services_data import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent  # E:\All Client Websites\Faith Works
-LOGO = "Images/fw-logo3.png"
+LOGO = "Images/fw-logo3-144.webp"
+LOGO_LARGE = "Images/fw-logo3.webp"
 
 
 def sync_logo() -> None:
-    src = ROOT / "Images" / "fw-logo3.png"
+    src = ROOT / "Images" / "fw-logo3-192.png"
     dst = ROOT / "Images" / "Logo.png"
     if src.exists():
         shutil.copy2(src, dst)
+    elif (ROOT / "Images" / "fw-logo3.png").exists():
+        shutil.copy2(ROOT / "Images" / "fw-logo3.png", dst)
+
+
+def logo_path(display_size: int) -> str:
+    return LOGO_LARGE if display_size >= 160 else LOGO
+
+
+def mosaic_image_src(filename: str) -> str:
+    card = f"Gallery/cards/{filename}"
+    if (ROOT / card).exists():
+        return card
+    return f"Gallery/{filename}"
 
 
 def logo_coin(modifier: str = "fw-logo-coin--header", size: int = 68, alt: str = "", logo_src: str | None = None) -> str:
-    src = logo_src or LOGO
+    src = logo_src or logo_path(size)
     alt_attr = f' alt="{alt}"' if alt else ' alt=""'
     hidden = ' aria-hidden="true"' if not alt else ""
     return f"""<div class="fw-logo-coin {modifier}"{hidden}>
@@ -354,8 +368,9 @@ def fonts_head() -> str:
 
 
 def favicon_head(root_prefix: str = "") -> str:
-    return f"""  <link rel="icon" type="image/png" href="{root_prefix}Images/fw-logo3.png">
-  <link rel="apple-touch-icon" href="{root_prefix}Images/fw-logo3.png">"""
+    icon = f"{root_prefix}Images/fw-logo3-192.png"
+    return f"""  <link rel="icon" type="image/png" href="{icon}">
+  <link rel="apple-touch-icon" href="{icon}">"""
 
 
 def analytics_head() -> str:
@@ -548,7 +563,7 @@ def service_mosaic_card(s: dict, delay_ms: int, featured: bool = False) -> str:
     return f"""
           <a class="fw-service-card{" fw-service-card--featured" if featured else ""}" href="{s['slug']}.html" data-fw-enter="bottom" style="--fw-enter-delay: {delay_ms}ms;">
             {badge}
-            <img class="fw-service-card__bg" src="Gallery/{s['mosaic_image']}" alt="{img_alt}" loading="lazy" decoding="async" width="800" height="800">
+            <img class="fw-service-card__bg" src="{mosaic_image_src(s['mosaic_image'])}" alt="{img_alt}" loading="lazy" decoding="async" width="800" height="800">
             <span class="fw-service-card__overlay" aria-hidden="true"></span>
             <span class="fw-service-card__panel fw-service-card__panel--front">
               <strong class="fw-service-card__headline">{s['mosaic_headline']}</strong>
@@ -723,7 +738,7 @@ def gallery_teaser_section() -> str:
     for i, (img, alt, label) in enumerate(GALLERY[:6]):
         thumbs += f"""
           <a class="work-thumb" href="gallery.html" aria-label="View {label} gallery" data-fw-enter="bottom" style="--fw-enter-delay: {(i % 3) * 70}ms;">
-            <img src="Gallery/{img}" alt="{alt}" loading="lazy" width="600" height="450">
+            <img src="{mosaic_image_src(img)}" alt="{alt}" loading="lazy" width="600" height="450">
             <span class="work-thumb-label">{label}</span>
           </a>"""
     return f"""
@@ -755,7 +770,7 @@ def equipment_trust_section() -> str:
         alt = next((alt for f, alt, _lbl in GALLERY if f == img), title)
         items += f"""
           <article class="equipment-card" data-fw-enter="bottom" style="--fw-enter-delay: {(i % 4) * 70}ms;">
-            <img src="Gallery/{img}" alt="{alt}" loading="lazy" width="640" height="480">
+            <img src="{mosaic_image_src(img)}" alt="{alt}" loading="lazy" width="640" height="480">
             <div>
               <h3>{title}</h3>
               <p>{desc}</p>
@@ -786,7 +801,7 @@ def home_services_hub_section() -> str:
         img_alt = next((alt for f, alt, _lbl in GALLERY if f == cat["image"]), cat["title"])
         cards += f"""
           <article class="home-services-hub-card home-services-hub-card--buyer" data-fw-enter="bottom" style="--fw-enter-delay: {(i % 3) * 60}ms;">
-            <img class="home-services-hub-card__image" src="Gallery/{cat['image']}" alt="{img_alt}" loading="lazy" width="640" height="420">
+            <img class="home-services-hub-card__image" src="{mosaic_image_src(cat['image'])}" alt="{img_alt}" loading="lazy" width="640" height="420">
             <div class="home-services-hub-card__body">
               <h3>{cat['title']}</h3>
               <p>{cat['text']}</p>
@@ -1313,7 +1328,7 @@ def page_shell(
 {favicon_head(root_prefix)}
 {fonts_head()}
 {hero_preloads}
-  <link rel="stylesheet" href="{root_prefix}styles.css?v=20260625">
+  <link rel="stylesheet" href="{root_prefix}styles.css?v=20260626">
 {analytics_head()}
 </head>
 <body>
@@ -5023,6 +5038,9 @@ def cleanup_obsolete_pages() -> None:
 
 
 def main() -> None:
+    from optimize_images import main as optimize_images
+
+    optimize_images()
     sync_logo()
     write_styles()
     patch_script()
