@@ -136,7 +136,7 @@ SITE = {
     "youtube": "https://www.youtube.com/@PLACEHOLDER",
     "google_business": "PLACEHOLDER",
     "formspree": "https://formspree.io/f/mbdvryrr",
-    "ga4": "G-PLACEHOLDER",
+    "ga4": "G-LVN9G4X4B7",
     "clarity": "PLACEHOLDER",
 }
 
