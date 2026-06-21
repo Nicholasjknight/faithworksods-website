@@ -62,6 +62,9 @@ from services_data import (
 ROOT = Path(__file__).resolve().parent.parent  # E:\All Client Websites\Faith Works
 LOGO = "Images/fw-logo3-144.webp"
 LOGO_LARGE = "Images/fw-logo3.webp"
+SCHEMA_LOGO = "Images/fw-logo3-192.png"
+FAVICON_48 = "Images/favicon-48.png"
+FAVICON_ICO = "favicon.ico"
 
 
 def sync_logo() -> None:
@@ -71,6 +74,24 @@ def sync_logo() -> None:
         shutil.copy2(src, dst)
     elif (ROOT / "Images" / "fw-logo3.png").exists():
         shutil.copy2(ROOT / "Images" / "fw-logo3.png", dst)
+
+
+def sync_favicons() -> None:
+    src = ROOT / "Images" / "fw-logo3-192.png"
+    if not src.exists():
+        print("Favicon sync skipped: fw-logo3-192.png not found")
+        return
+
+    from PIL import Image
+
+    img = Image.open(src).convert("RGBA")
+    favicon_48 = ROOT / FAVICON_48
+    img.resize((48, 48), Image.Resampling.LANCZOS).save(favicon_48, optimize=True)
+
+    ico_path = ROOT / FAVICON_ICO
+    img.save(ico_path, format="ICO", sizes=[(16, 16), (32, 32), (48, 48)])
+    print(f"Favicon -> {FAVICON_ICO}")
+    print(f"Favicon -> {FAVICON_48} ({favicon_48.stat().st_size // 1024} KB)")
 
 
 def logo_path(display_size: int) -> str:
@@ -135,6 +156,16 @@ SITE = {
     "facebook": "https://www.facebook.com/profile.php?id=PLACEHOLDER",
     "youtube": "https://www.youtube.com/@PLACEHOLDER",
     "google_business": "PLACEHOLDER",
+    "google_maps_embed": (
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1801085.726307002!"
+        "2d-81.94187744999999!3d28.154232999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!"
+        "3m3!1m2!1s0x62cf317841143dc3%3A0x181b9e708b42babc!2sFaith%20Works%20Outdoor%20Services%20LLC!"
+        "5e0!3m2!1sen!2sus!4v1782047790676!5m2!1sen!2sus"
+    ),
+    "google_maps_url": (
+        "https://www.google.com/maps/place/Faith+Works+Outdoor+Services+LLC/"
+        "@28.154233,-81.941877,11z"
+    ),
     "formspree": "https://formspree.io/f/mbdvryrr",
     "ga4": "G-LVN9G4X4B7",
     "clarity": "xabzgoqj5k",
@@ -205,8 +236,6 @@ GOOGLE_G_LOGO = """<svg class="fw-google-g-logo" xmlns="http://www.w3.org/2000/s
                                 <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                                 <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                             </svg>"""
-
-REVIEW_PLACEHOLDERS: list[dict] = []
 
 INTENT_ROUTES = [
     {
@@ -394,10 +423,13 @@ def fonts_head() -> str:
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"></noscript>"""
 
 
-def favicon_head(root_prefix: str = "") -> str:
-    icon = f"{root_prefix}Images/fw-logo3-192.png"
-    return f"""  <link rel="icon" type="image/png" href="{icon}">
-  <link rel="apple-touch-icon" href="{icon}">"""
+def favicon_head() -> str:
+    base = SITE["url"].rstrip("/")
+    return f"""  <link rel="icon" href="{base}/{FAVICON_ICO}" sizes="any">
+  <link rel="icon" type="image/png" sizes="48x48" href="{base}/{FAVICON_48}">
+  <link rel="icon" type="image/png" sizes="192x192" href="{base}/{SCHEMA_LOGO}">
+  <link rel="apple-touch-icon" sizes="192x192" href="{base}/{SCHEMA_LOGO}">
+  <link rel="manifest" href="{base}/site.webmanifest">"""
 
 
 def analytics_head() -> str:
@@ -710,14 +742,35 @@ def intent_router_section(context: str = "home") -> str:
 
 
 def reviews_section() -> str:
+    maps_url = SITE["google_maps_url"]
+    maps_embed = SITE["google_maps_embed"]
     return f"""
-    <section id="reviews" class="reviews-section section-shell reviews-section--soon">
+    <section id="reviews" class="reviews-section section-shell" aria-label="Google reviews and map">
       <div class="container">
-        <div class="reviews-coming-soon" data-fw-enter="bottom">
-          <p class="eyebrow">Reviews coming soon</p>
-          <h2>Faith Works Outdoor Services Is Newly Launched</h2>
-          <p>Google reviews will appear here once the Google Business Profile is verified and real customer reviews are available. Until then, this site will not publish unverified testimonials, review schema, or aggregate rating markup.</p>
-          <a class="btn btn-ghost" href="contact.html">Request an Estimate</a>
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">Local trust</p>
+          <h2>Google Reviews &amp; Service Area Map</h2>
+          <p>Confirm our location on the map below. Verified Google reviews will appear here once customers share feedback on our Business Profile.</p>
+        </div>
+        <div class="fw-map-review-shell" data-fw-enter="bottom">
+          <div class="fw-reviews-showcase fw-reviews-showcase--placeholder" aria-label="Google reviews">
+            <div class="fw-reviews-placeholder">
+              <div class="fw-reviews-header fw-reviews-header--compact">
+                {GOOGLE_G_LOGO}
+                <span class="fw-reviews-header__label">Google Reviews</span>
+                <div class="fw-reviews-summary">Reviews coming soon</div>
+              </div>
+              <a class="btn btn-primary fw-reviews-leave-btn" href="{maps_url}" target="_blank" rel="noopener noreferrer">Leave a Review</a>
+            </div>
+          </div>
+          <div class="fw-map-panel" id="fw-map-shell" aria-label="Faith Works Outdoor Services on Google Maps">
+            <iframe class="fw-map-frame" src="{maps_embed}" title="Faith Works Outdoor Services LLC on Google Maps" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="fw-map-overlay">
+              <strong>{SITE['brand']}</strong>
+              <span>{SITE['city']}, FL &middot; Central Florida outdoor services</span>
+              <span class="fw-map-rating" aria-label="Reviews coming soon">Google reviews coming soon</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>"""
@@ -1504,6 +1557,7 @@ def page_shell(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{favicon_head()}
   <title>{title}</title>
   <meta name="description" content="{description}">
   <link rel="canonical" href="{canonical_url}">
@@ -1528,7 +1582,6 @@ def page_shell(
   <meta name="twitter:description" content="{description}">
   <meta name="twitter:image" content="{public_asset_url(f'Gallery/{HERO_DESKTOP}')}">
 {extra_head}
-{favicon_head(root_prefix)}
 {fonts_head()}
 {hero_preloads}
   <link rel="preload" href="{root_prefix}styles.css?v={ASSET_VERSION}" as="style">
@@ -1596,7 +1649,12 @@ def business_schema() -> str:
             "name": SITE["owner"],
         },
         "image": schema_asset_url(f"Gallery/{HERO_DESKTOP}"),
-        "logo": schema_asset_url(LOGO),
+        "logo": {
+            "@type": "ImageObject",
+            "url": schema_asset_url(SCHEMA_LOGO),
+            "width": 192,
+            "height": 192,
+        },
         "priceRange": "$$",
         "openingHours": "Mo-Sa 07:00-18:00",
         "areaServed": county_areas + areas,
@@ -2614,6 +2672,32 @@ def write_robots() -> None:
 
 def write_cname() -> None:
     write_site_file(ROOT / "CNAME", "faithworksclearing.com\n")
+
+
+def write_manifest() -> None:
+    base = SITE["url"].rstrip("/")
+    payload = {
+        "name": SITE["brand"],
+        "short_name": SITE["short"],
+        "description": f"{SITE['brand']} - {SITE_POSITIONING} in {SITE['area']}.",
+        "start_url": f"{base}/",
+        "display": "standalone",
+        "background_color": "#0a0a0a",
+        "theme_color": "#0a0a0a",
+        "icons": [
+            {
+                "src": f"{base}/{FAVICON_48}",
+                "sizes": "48x48",
+                "type": "image/png",
+            },
+            {
+                "src": f"{base}/{SCHEMA_LOGO}",
+                "sizes": "192x192",
+                "type": "image/png",
+            },
+        ],
+    }
+    write_site_file(ROOT / "site.webmanifest", json.dumps(payload, indent=2) + "\n")
 
 
 def write_styles() -> None:
@@ -5049,6 +5133,30 @@ html.fw-js [data-fw-enter].is-visible {
   padding: clamp(22px, 3vw, 32px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
+.fw-reviews-showcase--placeholder {
+  padding: clamp(28px, 4vw, 40px);
+}
+.fw-reviews-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  text-align: center;
+}
+.fw-reviews-header--compact {
+  justify-content: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.fw-reviews-header--compact .fw-reviews-summary {
+  width: auto;
+  margin: 0;
+}
+.fw-reviews-leave-btn {
+  min-width: 12rem;
+}
 .fw-reviews-header {
   display: flex;
   flex-wrap: wrap;
@@ -5241,6 +5349,130 @@ html.fw-js [data-fw-enter].is-visible {
   }
   .fw-review-header {
     padding-right: 0;
+  }
+}
+
+/* ---- Map + reviews shell (Knight Group-style stack) ---- */
+.fw-map-review-shell {
+  overflow: hidden;
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+}
+.fw-map-review-shell .fw-reviews-showcase {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+.fw-reviews-footnote a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+.fw-reviews-footnote a:hover,
+.fw-reviews-footnote a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+}
+.fw-map-panel {
+  position: relative;
+  height: clamp(210px, 27vw, 310px);
+  overflow: hidden;
+  border-top: 1px solid rgba(201, 162, 39, 0.18);
+  container-type: inline-size;
+  container-name: fw-map;
+}
+.fw-map-panel .fw-map-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: saturate(0.82) contrast(1.04) brightness(0.82);
+}
+.fw-map-overlay {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: calc(100% - 36px);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: 14px;
+  background: rgba(10, 10, 10, 0.84);
+  color: #fff;
+  padding: 12px 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.36);
+  pointer-events: none;
+}
+.fw-map-overlay strong {
+  font-size: 0.95rem;
+}
+.fw-map-overlay span {
+  color: rgba(245, 240, 232, 0.72);
+  font-size: 0.82rem;
+}
+.fw-map-rating {
+  color: var(--accent) !important;
+  font-size: 0.84rem !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+@container fw-map (max-width: 640px) {
+  .fw-map-overlay {
+    left: 12px;
+    bottom: 12px;
+    max-width: min(58%, 210px);
+    padding: 8px 11px;
+    gap: 2px;
+    border-radius: 11px;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  }
+  .fw-map-overlay strong {
+    font-size: 0.8125rem;
+    line-height: 1.15;
+  }
+  .fw-map-overlay span {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+  .fw-map-rating {
+    font-size: 0.75rem !important;
+  }
+}
+@container fw-map (max-width: 420px) {
+  .fw-map-overlay {
+    left: 8px;
+    bottom: 8px;
+    max-width: min(54%, 168px);
+    padding: 6px 8px;
+    gap: 1px;
+    border-radius: 9px;
+  }
+  .fw-map-overlay strong {
+    font-size: 0.75rem;
+    line-height: 1.12;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  .fw-map-overlay span {
+    font-size: 0.6875rem;
+    line-height: 1.15;
+  }
+  .fw-map-overlay span:last-child {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+  .fw-map-rating {
+    font-size: 0.6rem !important;
   }
 }
 
@@ -6387,6 +6619,7 @@ def main() -> None:
 
     optimize_images()
     sync_logo()
+    sync_favicons()
     write_styles()
     write_sw()
     patch_script()
@@ -6404,6 +6637,7 @@ def main() -> None:
     write_404()
     write_sitemap()
     write_robots()
+    write_manifest()
     write_cname()
     cleanup_obsolete_pages()
     from verify_schema import main as verify_schema
