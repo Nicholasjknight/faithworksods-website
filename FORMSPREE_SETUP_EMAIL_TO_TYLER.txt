@@ -1,24 +1,19 @@
 TO: tyler@faithworksclearing.com
-SUBJECT: One-time step — activate website estimate forms
+SUBJECT: One quick step — activate website estimate forms (Formspree)
 
 Hi Tyler,
 
-The contact forms on https://faithworksclearing.com send to tyler@faithworksclearing.com.
+Your faithworksclearing.com inbox is set up. We switched the site to Formspree (same system we use on our other client sites).
 
-IMPORTANT: Do NOT use any formsubmit.co/email/ link — that page does not exist.
+Formspree will email tyler@faithworksclearing.com with a one-time confirmation link. That is normal — it proves you want estimate requests delivered to that address.
 
-To turn forms on (one-time):
+What to do:
 
-1. Go to https://faithworksclearing.com/contact.html
-2. Fill out the form with your name and phone (use a test message like "Form activation test")
-3. Click Send Estimate Request
-4. Check tyler@faithworksclearing.com inbox AND spam/junk for an email from FormSubmit
-5. Open that email and click the "Activate Form" link
-6. Submit the form one more time to confirm delivery
+1. Check tyler@faithworksclearing.com inbox AND spam/junk for an email from Formspree
+2. Open it and click Confirm / Activate
+3. Reply to Nicholas once you have clicked it (or if nothing arrives within 15 minutes)
 
-After activation, every estimate request from the website will email you automatically.
-
-If no FormSubmit email arrives within 15 minutes, reply to Nicholas — we can switch to Formspree instead.
+After that, every estimate request from https://faithworksclearing.com goes straight to your inbox — no extra steps on your end.
 
 Thanks,
 Nicholas

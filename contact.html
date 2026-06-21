@@ -805,7 +805,7 @@
           <p class="card-eyebrow">Free photo-based estimate</p>
           <h2 class="card-name">Project Estimate Form</h2>
 
-            <form class="contact-form" action="https://formsubmit.co/tyler@faithworksclearing.com" method="POST" id="contact-form" enctype="multipart/form-data" data-form-mode="formsubmit">
+            <form class="contact-form" action="https://formspree.io/f/mbdvryrr" method="POST" id="contact-form" enctype="multipart/form-data">
               <input type="hidden" name="page" value="contact.html">
 
               <div class="form-group">
@@ -886,21 +886,23 @@
               </div>
 
               <div class="form-group">
+                <label for="contact-form-photos">Upload Project Photos</label>
+                <input type="file" id="contact-form-photos" name="photos" accept="image/*" multiple>
+                <p class="form-help">Wide photos, closeups, and access photos help Tyler quote faster.</p>
+              </div>
+              <div class="form-group">
                 <label for="contact-form-message">Project Details</label>
                 <textarea id="contact-form-message" name="message" placeholder="Describe the property, size, timeline, equipment access, and what you need cleared or removed..." rows="4"></textarea>
               </div>
               <input type="hidden" name="_subject" value="Contact form - Faith Works Outdoor Services">
-
-              <input type="hidden" name="_next" value="https://faithworksclearing.com/thank-you.html">
-              <input type="hidden" name="_captcha" value="false">
-              <input type="hidden" name="_template" value="table">
+              <input type="hidden" name="_format" value="plain">
               <div class="fw-hp-field" aria-hidden="true">
                 <label for="contact-form-gotcha">Leave this field empty</label>
                 <input type="text" id="contact-form-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
               </div>
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-full">Send Estimate Request</button>
-                <p class="form-note">Text photos to <a href="tel:8632721596">(863) 272-1596</a> for the fastest estimate.</p>
+                <p class="form-note">Upload photos here or text photos to <a href="tel:8632721596">(863) 272-1596</a> for the fastest estimate.</p>
               </div>
             </form>
             <div class="form-success" id="contact-form-success" aria-live="polite" hidden>
