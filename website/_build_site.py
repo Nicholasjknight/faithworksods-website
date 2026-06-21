@@ -167,6 +167,7 @@ SITE = {
         "https://www.google.com/maps/place/Faith+Works+Outdoor+Services+LLC/"
         "@28.154233,-81.941877,11z"
     ),
+    "google_review_url": "https://g.page/r/Cby6QotwnhsYEAI/review",
     "formspree": "https://formspree.io/f/mbdvryrr",
     "ga4": "G-LVN9G4X4B7",
     "clarity": "xabzgoqj5k",
@@ -194,8 +195,8 @@ def form_thank_you_url(page: str = "thank-you.html") -> str:
 def form_action_attrs(subject: str) -> tuple[str, str, str, str, str]:
     endpoint = formspree_endpoint()
     if endpoint:
-        return endpoint, "POST", "multipart/form-data", "", "formspree"
-    return formsubmit_endpoint(), "POST", "multipart/form-data", ' data-form-mode="formsubmit"', "formsubmit"
+        return endpoint, "POST", "application/x-www-form-urlencoded", "", "formspree"
+    return formsubmit_endpoint(), "POST", "application/x-www-form-urlencoded", ' data-form-mode="formsubmit"', "formsubmit"
 
 
 GALLERY = [
@@ -345,6 +346,49 @@ HOME_FAQS = [
     (
         "Do you handle storm debris cleanup in Central Florida?",
         "Yes. Storm debris cleanup, yard debris removal, and property cleanup are available after wind and storm events when access and scope allow. Send photos of limbs, brush piles, and blocked areas for a faster estimate.",
+    ),
+]
+
+CONTACT_FAQS = [
+    (
+        "How do I request a free estimate from Faith Works?",
+        f"Use the quick estimate form on this page with your name, phone, service type, and a brief description of the job and city. You can also call or text {SITE['phone_display']} to reach Tyler Edwards directly.",
+    ),
+    (
+        "Do I need to upload photos with the contact form?",
+        "No. The form is intentionally short so you can reach out quickly. Tyler follows up by phone or text and may ask you to send photos afterward if they help confirm scope, access, or debris volume.",
+    ),
+    (
+        "How quickly will someone respond after I submit the form?",
+        f"Tyler reviews estimate requests personally and typically follows up by phone or text as soon as possible during business hours. For urgent storm debris or access issues, calling {SITE['phone_display']} is often fastest.",
+    ),
+    (
+        "What information should I include in my estimate request?",
+        "Include your city or general job location, the type of outdoor work you need (land clearing, pond bank, ditch, brush, debris removal, etc.), and a short description of the property condition. Access notes can wait until Tyler calls back.",
+    ),
+    (
+        "What areas does Faith Works serve from Auburndale, FL?",
+        f"{SITE['brand']} is based in {SITE['city']}, Florida (33823) and serves property owners within about {SERVICE_RADIUS_MILES} miles across Polk County and nearby Central Florida counties including Hillsborough, Osceola, Orange, Lake, Pasco, and surrounding communities.",
+    ),
+    (
+        "What outdoor services can I request a quote for?",
+        f"Common estimate requests include {SITE_POSITIONING.lower()} — land clearing, trail clearing, brush clearing, forestry mulching, pond bank clearing, pond cleanup, ditch clearing, debris removal, property and lot cleanup, access road clearing, fence line clearing, overgrowth removal, pool dig-out support under licensed pool builders, and tractor or equipment services.",
+    ),
+    (
+        "Does Faith Works work with homeowners, landowners, and property managers?",
+        "Yes. Faith Works works with residential homeowners, rural landowners, small acreage owners, and property managers who need outdoor clearing, cleanup, or maintenance help. Tyler confirms scope and access before scheduling equipment.",
+    ),
+    (
+        "Can I call instead of filling out the online form?",
+        f"Absolutely. Call or text {SITE['phone_display']} if you prefer to talk through the project first. The contact form is for people who want Tyler to call them back with the basic details already captured.",
+    ),
+    (
+        "What work is outside Faith Works' scope?",
+        f"Faith Works does not install underground utilities, stormwater systems, sewer systems, water mains, engineered drainage, or licensed pool contracting. The company focuses on {SITE_POSITIONING.lower()} using owner-operated Kubota equipment.",
+    ),
+    (
+        "Where can I see examples of Faith Works projects?",
+        "Visit the project gallery for land clearing, brush cutting, pond bank, ditch, and property cleanup photos from Central Florida job sites. Individual service pages also explain scope, ideal projects, and what to expect before you request an estimate.",
     ),
 ]
 
@@ -743,7 +787,7 @@ def intent_router_section(context: str = "home") -> str:
 
 
 def reviews_section() -> str:
-    maps_url = SITE["google_maps_url"]
+    review_url = SITE["google_review_url"]
     maps_embed = SITE["google_maps_embed"]
     return f"""
     <section id="reviews" class="reviews-section section-shell" aria-label="Google reviews and map">
@@ -761,7 +805,7 @@ def reviews_section() -> str:
                 <span class="fw-reviews-header__label">Google Reviews</span>
                 <div class="fw-reviews-summary">Reviews coming soon</div>
               </div>
-              <a class="btn btn-primary fw-reviews-leave-btn" href="{maps_url}" target="_blank" rel="noopener noreferrer">Leave a Review</a>
+              <a class="btn btn-primary fw-reviews-leave-btn" href="{review_url}" target="_blank" rel="noopener noreferrer">Leave a Review</a>
             </div>
           </div>
           <div class="fw-map-panel" id="fw-map-shell" aria-label="Faith Works Outdoor Services on Google Maps">
@@ -943,6 +987,187 @@ def home_faq_section() -> str:
           <p>Answers property owners in {SITE['city']}, Polk County, and Central Florida often ask before requesting an estimate.</p>
         </div>
         {faq_accordion(HOME_FAQS, "home")}
+      </div>
+    </section>"""
+
+
+def contact_intro_section() -> str:
+    county_names = ", ".join(c["name"] for c in COUNTIES[:6])
+    return f"""
+    <section class="section-shell">
+      <div class="container sp-layout">
+        <div class="sp-content" data-fw-enter="left">
+          <p class="eyebrow">Contact Faith Works</p>
+          <h2>Request Land Clearing, Pond Bank &amp; Outdoor Property Estimates in Central Florida</h2>
+          <p>{SITE['brand']} is an owner-operated outdoor services company based in {SITE['city']}, Florida. {SITE['owner']} handles estimate requests personally — when you call, text, or submit the form on this page, you are reaching the person who runs the equipment and schedules the work.</p>
+          <p>Faith Works helps homeowners, rural landowners, and property managers with {SITE_POSITIONING.lower()}. Typical projects include overgrown acreage, pond edges, ditches, fence lines, trail access, storm debris, yard cleanup, and support work around licensed pool builders.</p>
+          <p>Service coverage extends roughly {SERVICE_RADIUS_MILES} miles from {SITE['city']} (33823) across {county_names}, and additional Central Florida counties listed below. If you are unsure whether your property is in range, submit the form with your city and Tyler will confirm during follow-up.</p>
+          <h2>Why Property Owners Contact Faith Works</h2>
+          <p>Most estimate requests start with a visible outdoor problem: brush taking over a fence line, a pond bank you cannot reach anymore, a ditch full of vegetation, storm limbs piled on the property, or acreage that needs clearing before fencing, access, or cleanup can move forward. Faith Works scopes those jobs around equipment access, vegetation density, debris handling, and the condition you want the land left in.</p>
+          <p>Unlike large excavation or utility contractors, Faith Works focuses on outdoor property services using compact Kubota equipment — excavators, tractors, brush cutters, and trailers — sized for residential yards, rural lots, pond banks, and smaller acreage projects throughout Polk County and nearby communities.</p>
+          <ul>
+            <li>Direct communication with Tyler — no call center or ticket queue</li>
+            <li>Short estimate form designed for quick requests on mobile</li>
+            <li>Phone and text follow-up at {SITE['phone_display']}</li>
+            <li>Clear scope boundaries — no utility trenching or engineered drainage</li>
+            <li>Local {SITE['city']} business serving Central Florida property owners</li>
+          </ul>
+          <p>Prefer email for records? Reach us at <a href="mailto:{SITE['email']}">{SITE['email']}</a>. For the fastest response on active projects, call or text is usually best.</p>
+        </div>
+        <aside class="sp-sidebar" data-fw-enter="right">
+          <div class="about-card">
+            <h3>Contact Information</h3>
+            <ul class="about-list">
+              <li><strong>Phone / text:</strong> <a href="tel:{SITE['phone_tel']}">{SITE['phone_display']}</a></li>
+              <li><strong>Email:</strong> <a href="mailto:{SITE['email']}">{SITE['email']}</a></li>
+              <li><strong>Owner:</strong> {SITE['owner']}</li>
+              <li><strong>Business:</strong> {SITE['legal_name']}</li>
+              <li><strong>Base location:</strong> {SITE['city']}, FL {HOME_ZIP}</li>
+              <li><strong>Service radius:</strong> ~{SERVICE_RADIUS_MILES} miles from {SITE['city']}</li>
+            </ul>
+            <a class="btn btn-primary btn-full" href="#contact-form">Jump to estimate form</a>
+            <p class="form-help" style="margin-top:12px">Licensed pool contracting and utility infrastructure work are outside our scope. Pool dig-out support is available under your licensed pool builder.</p>
+          </div>
+        </aside>
+      </div>
+    </section>"""
+
+
+def contact_services_estimate_section() -> str:
+    groups: dict[str, list] = {}
+    for s in PHASE1_SERVICES:
+        groups.setdefault(s["category"], []).append(s)
+    blocks = ""
+    for cat in SERVICE_CATEGORIES:
+        services = groups.get(cat["id"])
+        if not services:
+            continue
+        items = ""
+        for s in services:
+            items += f"""
+              <a class="service-directory-item" href="{s['slug']}.html">
+                <strong>{s['name']}</strong>
+                <span>{s['desc']}</span>
+              </a>"""
+        blocks += f"""
+          <div class="service-directory-group" data-fw-enter="bottom">
+            <h3>{cat['label']}</h3>
+            <p>{cat['description']}</p>
+            <div class="service-directory-items">{items}
+            </div>
+          </div>"""
+    return f"""
+    <section class="section-shell">
+      <div class="container">
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">Services you can quote</p>
+          <h2>Outdoor Property Services Available for Estimate Requests</h2>
+          <p>Select a service in the estimate form above or open a service page below to review scope, ideal projects, and FAQs before you contact Faith Works.</p>
+        </div>
+        <div class="service-directory">{blocks}
+        </div>
+        <div style="text-align:center;margin-top:2rem">
+          <a class="btn btn-ghost" href="services.html">Browse all {SERVICE_COUNT} services &rarr;</a>
+        </div>
+      </div>
+    </section>"""
+
+
+def contact_service_areas_section() -> str:
+    county_blocks = ""
+    for i, county in enumerate(COUNTIES):
+        cities = cities_in_county(county["name"])
+        city_links = ", ".join(
+            f'<a href="{city_href(c["slug"])}">{c["name"]}</a>' for c in cities[:6]
+        )
+        more = ""
+        if len(cities) > 6:
+            more = f' &nbsp;·&nbsp; <a href="areas/{county["slug"]}.html">All {county["name"]} cities</a>'
+        county_blocks += f"""
+          <article class="area-card area-card--county area-card--rich" data-fw-enter="bottom" style="--fw-enter-delay: {(i % 3) * 60}ms;">
+            <p class="area-card-county">{county['name']}</p>
+            <h3><a href="areas/{county['slug']}.html">{county['name']} outdoor services</a></h3>
+            <p>{county['description']}</p>
+            <p class="area-card-meta">Example cities: {city_links}{more}</p>
+            <a class="area-card-cta" href="areas/{county['slug']}.html">View {county['name']} service areas &rarr;</a>
+          </article>"""
+    featured = ", ".join(
+        f'<a href="{city_href(c["slug"])}">{c["name"]}, FL</a>' for c in FEATURED_CITIES[:12]
+    )
+    return f"""
+    <section class="section-shell">
+      <div class="container">
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">Central Florida coverage</p>
+          <h2>Service Areas for Land Clearing &amp; Outdoor Property Estimates</h2>
+          <p>Faith Works is headquartered in {SITE['city']}, Polk County, and schedules outdoor clearing and cleanup projects within approximately {SERVICE_RADIUS_MILES} miles. County and city pages on this site explain local scope, FAQs, and common jobs for each community.</p>
+        </div>
+        <p class="areas-featured" data-fw-enter="left">Popular estimate cities: {featured} &nbsp;·&nbsp; <a href="service-areas.html">Full service area index</a></p>
+        <div class="areas-grid areas-grid--counties">{county_blocks}
+        </div>
+      </div>
+    </section>"""
+
+
+def contact_typical_jobs_section() -> str:
+    jobs = [
+        ("Overgrown acreage & fence lines", "Brush, saplings, and vines along fences, pastures, and unused land where compact clearing equipment can regain access."),
+        ("Pond banks & ditch lines", "Vegetation buildup on pond edges, drainage ditches, and swales that block visibility, access, or routine maintenance."),
+        ("Trail & access paths", "Cutting in or reopening trails, drive paths, and access routes through wooded or overgrown property."),
+        ("Storm & yard debris", "Limbs, piles, and scattered debris after storms or long-term neglect on residential and rural lots."),
+        ("Pool dig-out support", "Dirt removal and site cleanup support under a licensed pool contractor — not direct pool installation."),
+        ("Tractor & equipment help", "Owner-operated Kubota tractor, loader, and grapple work for outdoor property tasks that fit compact equipment."),
+    ]
+    cards = ""
+    for i, (title, text) in enumerate(jobs):
+        cards += f"""
+          <article class="process-step" data-fw-enter="bottom" style="--fw-enter-delay: {(i % 3) * 60}ms;">
+            <span>{i + 1}</span>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>"""
+    return f"""
+    <section class="section-shell">
+      <div class="container">
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">Common estimate requests</p>
+          <h2>Typical Outdoor Projects We Quote in Polk County &amp; Nearby Areas</h2>
+          <p>These are the jobs Central Florida property owners most often describe when requesting an estimate. If your project sounds similar, include the city and a short description in the form — Tyler will confirm equipment, access, and scope on follow-up.</p>
+        </div>
+        <div class="process-grid">{cards}
+        </div>
+      </div>
+    </section>"""
+
+
+def contact_faq_section() -> str:
+    return f"""
+    <section id="contact-faq" class="faq-section section-shell">
+      <div class="container">
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">Estimate &amp; contact FAQs</p>
+          <h2>Questions About Requesting an Outdoor Services Estimate</h2>
+          <p>Answers for homeowners and property owners in {SITE['city']}, Polk County, and Central Florida before you submit the contact form or call {SITE['phone_display']}.</p>
+        </div>
+        {faq_accordion(CONTACT_FAQS, "contact")}
+      </div>
+    </section>"""
+
+
+def contact_bottom_cta_section() -> str:
+    return f"""
+    <section class="cta-section section-shell">
+      <div class="container">
+        <div class="cta-inner" data-fw-enter="bottom">
+          <div class="cta-copy">
+            <h2>Ready for a Free Outdoor Property Estimate?</h2>
+            <p>Submit the short form above or call Tyler at {SITE['phone_display']}. We serve {SITE['city']}, Polk County, and communities within about {SERVICE_RADIUS_MILES} miles across Central Florida.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg" href="#contact-form">Send Estimate Request</a>
+            <a class="btn btn-ghost btn-lg" href="tel:{SITE['phone_tel']}">Call {SITE['phone_display']}</a>
+          </div>
+        </div>
       </div>
     </section>"""
 
@@ -1213,48 +1438,6 @@ def estimate_form(
     form_class = "contact-form contact-form-hero" if compact else "contact-form"
     phone = SITE["phone_display"]
     action, method, enctype, mode_attr, provider = form_action_attrs(subj)
-    upload_enabled = bool(formspree_endpoint())
-
-    photo_upload = ""
-    if upload_enabled:
-        photo_upload = f"""
-              <div class="form-group">
-                <label for="{form_id}-photos">Upload Project Photos</label>
-                <input type="file" id="{form_id}-photos" name="photos" accept="image/*" multiple>
-                <p class="form-help">Wide photos, closeups, and access photos help Tyler quote faster.</p>
-              </div>"""
-
-    text_photos_select = f"""
-              <div class="form-group">
-                <label for="{form_id}-can-text">Can you text photos?</label>
-                <select id="{form_id}-can-text" name="can_text_photos" required>
-                  <option value="" disabled selected>Select one...</option>
-                  <option>Yes - I can text photos</option>
-                  <option>No - please call me first</option>
-                  <option>I already included photos</option>
-                </select>
-              </div>"""
-
-    common_fields = f"""
-              <div class="form-group">
-                <label for="{form_id}-location">City / Job Location</label>
-                <input type="text" id="{form_id}-location" name="job_location" placeholder="Auburndale, Winter Haven, Lakeland..." required>
-              </div>
-              <div class="form-group">
-                <label for="{form_id}-service">Service Needed</label>
-                <select id="{form_id}-service" name="service" required>
-                {service_options(selected)}
-                </select>
-              </div>
-              {text_photos_select}
-              <div class="form-group">
-                <label for="{form_id}-best-time">Best Time to Contact</label>
-                <input type="text" id="{form_id}-best-time" name="best_time" placeholder="Morning, afternoon, evening, or specific time">
-              </div>
-              <div class="form-group">
-                <label for="{form_id}-access">Property Access Notes</label>
-                <input type="text" id="{form_id}-access" name="access_notes" placeholder="Gate width, slopes, wet areas, utilities, pets, locks">
-              </div>"""
 
     if compact:
         service_hidden = (
@@ -1272,7 +1455,7 @@ def estimate_form(
               {service_hidden}
               <div class="form-group">
                 <label for="{form_id}-message">What do you need?</label>
-                <textarea id="{form_id}-message" name="message" placeholder="City + quick description — e.g. brush clearing in Auburndale" rows="2"></textarea>
+                <textarea id="{form_id}-message" name="message" placeholder="City + quick description — e.g. brush clearing in Auburndale" rows="2" required></textarea>
               </div>"""
     else:
         fields = f"""
@@ -1285,26 +1468,21 @@ def estimate_form(
                 <input type="tel" id="{form_id}-phone" name="phone" placeholder="{phone}" required autocomplete="tel">
               </div>
               <div class="form-group">
-                <label for="{form_id}-email">Email</label>
-                <input type="email" id="{form_id}-email" name="email" placeholder="you@email.com" autocomplete="email">
+                <label for="{form_id}-service">Service Needed</label>
+                <select id="{form_id}-service" name="service" required>
+                {service_options(selected)}
+                </select>
               </div>
-              {common_fields}
-              {photo_upload}
               <div class="form-group">
-                <label for="{form_id}-message">Project Details</label>
-                <textarea id="{form_id}-message" name="message" placeholder="Describe the property, size, timeline, equipment access, and what you need cleared or removed..." rows="4"></textarea>
+                <label for="{form_id}-message">City &amp; Brief Description</label>
+                <textarea id="{form_id}-message" name="message" placeholder="Example: Winter Haven — overgrown pond bank and ditch line need clearing" rows="3" required></textarea>
               </div>"""
 
-    photo_note = (
-        "Upload photos here or text photos"
-        if upload_enabled
-        else "Text photos"
-    )
     submit_label = "Get Free Estimate" if compact else "Send Estimate Request"
     footer_note = (
-        f'Text photos to <a href="tel:{SITE["phone_tel"]}">{phone}</a> for the fastest quote.'
+        f'Tyler will follow up by phone or text. We may ask for photos then — or call <a href="tel:{SITE["phone_tel"]}">{phone}</a>.'
         if compact
-        else f'{photo_note} to <a href="tel:{SITE["phone_tel"]}">{phone}</a> for the fastest estimate.'
+        else f'Tyler will follow up by phone or text. No photos needed now — we will ask if they help with your quote.'
     )
     provider_fields = (
         '<input type="hidden" name="_format" value="plain">'
@@ -2169,7 +2347,11 @@ def write_about() -> None:
 def write_contact() -> None:
     contact_path = "contact.html"
     contact_title = f"Contact {SITE['brand']} | Free Outdoor Services Estimate"
-    contact_desc = f"Request a free photo-based estimate for {SITE_POSITIONING.lower()} in Polk County, FL."
+    contact_desc = (
+        f"Contact {SITE['owner']} at {SITE['brand']} for free land clearing, pond bank clearing, "
+        f"ditch clearing, and outdoor property service estimates in {SITE['city']}, Polk County, "
+        f"and Central Florida. Call {SITE['phone_display']} or submit the quick estimate form."
+    )
     schema = page_schema_bundle(
         contact_path,
         business_schema(),
@@ -2180,20 +2362,21 @@ def write_contact() -> None:
             page_type=["WebPage", "ContactPage"],
         ),
         breadcrumbs=[("Home", "index.html"), ("Contact", contact_path)],
+        faqs=CONTACT_FAQS,
     )
     body = f"""
     <section class="sp-hero">
       <div class="container">
         <p class="eyebrow"><a href="index.html">Home</a> &rsaquo; Contact</p>
         <h1>Request an Outdoor Property Services Estimate</h1>
-        <p>Tell us the city or job location, whether you can text photos, your best contact time, and what you need cleared, mulched, or cleaned up. Tyler reviews the details and follows up directly.</p>
+        <p>Share your name, phone, service type, and a quick description. Tyler follows up directly — we can ask for photos then if they help with your quote.</p>
       </div>
     </section>
     <section class="section-shell">
       <div class="container">
         <div class="contact-page-form hero-card" data-fw-enter="right">
-          <p class="card-eyebrow">Free photo-based estimate</p>
-          <h2 class="card-name">Project Estimate Form</h2>
+          <p class="card-eyebrow">Free estimate</p>
+          <h2 class="card-name">Quick Estimate Request</h2>
           {estimate_form('contact-form', subject=f'Contact form - {SITE["brand"]}', page='contact.html')}
         </div>
         <div class="contact-direct">
@@ -2203,44 +2386,51 @@ def write_contact() -> None:
         </div>
       </div>
     </section>
+    {contact_intro_section()}
     <section class="section-shell">
       <div class="container">
         <div class="section-heading" data-fw-enter="left">
-          <p class="eyebrow">Faster estimates</p>
-          <h2>What To Send With Your Request</h2>
-          <p>The best estimate requests include enough detail to understand access, debris volume, and the condition you want the property left in.</p>
+          <p class="eyebrow">After you submit</p>
+          <h2>What Happens Next</h2>
+          <p>Tyler reviews your request and reaches out by phone or text. If photos would help quote the job, we will ask for them then — no need to upload anything on this form.</p>
         </div>
         <div class="service-detail-grid">
           <article data-fw-enter="bottom">
-            <h3>Photos or video</h3>
+            <h3>Quick follow-up</h3>
             <ul>
-              <li>Wide photos of the full work area</li>
-              <li>Close photos of heavy brush, banks, or debris piles</li>
-              <li>Any wet areas, slopes, fences, gates, or obstacles</li>
+              <li>Tyler calls or texts to confirm details</li>
+              <li>We clarify location, access, and scope</li>
+              <li>You get a clear next step — quote or site visit</li>
             </ul>
           </article>
           <article data-fw-enter="bottom" style="--fw-enter-delay: 70ms;">
-            <h3>Access details</h3>
+            <h3>Photos if needed</h3>
             <ul>
-              <li>City or job address</li>
-              <li>Gate width and driveway access</li>
-              <li>Where equipment can park or unload</li>
+              <li>We may ask you to text wide shots of the work area</li>
+              <li>Close-ups of brush, banks, debris, or access points help</li>
+              <li>No upload required here — we will tell you what to send</li>
             </ul>
           </article>
           <article data-fw-enter="bottom" style="--fw-enter-delay: 140ms;">
-            <h3>Desired outcome</h3>
+            <h3>Ready to start?</h3>
             <ul>
-              <li>Clear, mulch, pile, or haul off debris</li>
-              <li>Any deadline or scheduling needs</li>
-              <li>Whether this connects to another outdoor project</li>
+              <li>Prefer to talk now? Call or text {SITE['phone_display']}</li>
+              <li>Include your city and the type of clearing or cleanup work</li>
+              <li>We serve Central Florida within about {SERVICE_RADIUS_MILES} miles of {SITE['city']}</li>
             </ul>
           </article>
         </div>
       </div>
-    </section>"""
+    </section>
+    {contact_typical_jobs_section()}
+    {contact_services_estimate_section()}
+    {contact_service_areas_section()}
+    {contact_faq_section()}
+    {reviews_section()}
+    {contact_bottom_cta_section()}"""
     html = page_shell(
-        f"Contact {SITE['brand']} | Free Outdoor Services Estimate",
-        f"Request a free photo-based estimate for {SITE_POSITIONING.lower()} in Polk County, FL.",
+        contact_title,
+        contact_desc,
         "contact.html",
         body,
         schema,
