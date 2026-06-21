@@ -144,6 +144,7 @@ SITE = {
     "legal_name": "Faith Works Outdoor Services LLC",
     "brand": "Faith Works Outdoor Services",
     "short": "Faith Works ODS",
+    "menu_brand": "Faith Works Clearing",
     "owner": "Tyler R. Edwards",
     "email": SITE_EMAIL,
     "phone_display": "(863) 272-1596",
@@ -404,17 +405,42 @@ def same_as_links() -> list[str]:
     return [url for url in (SITE["facebook"], SITE["youtube"], SITE["google_business"]) if live_url(url)]
 
 
-def social_icon_links() -> str:
-    links: list[str] = []
-    if live_url(SITE["facebook"]):
-        links.append(
-            f'<a href="{SITE["facebook"]}" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="Facebook">{FACEBOOK_SVG}</a>'
+def social_icon_item(platform: str, url: str, *, placeholder: bool = False) -> str:
+    svg = FACEBOOK_SVG if platform == "facebook" else YOUTUBE_SVG
+    label = "Facebook" if platform == "facebook" else "YouTube"
+    if live_url(url):
+        return (
+            f'<a href="{url}" class="social-icon" target="_blank" rel="noopener noreferrer" '
+            f'aria-label="{label}">{svg}</a>'
         )
-    if live_url(SITE["youtube"]):
-        links.append(
-            f'<a href="{SITE["youtube"]}" class="social-icon" target="_blank" rel="noopener noreferrer" aria-label="YouTube">{YOUTUBE_SVG}</a>'
-        )
-    return "\n              ".join(links)
+    if not placeholder:
+        return ""
+    return (
+        f'<span class="social-icon social-icon--placeholder" role="img" '
+        f'aria-label="{label} (coming soon)" title="{label} coming soon">{svg}</span>'
+    )
+
+
+def social_icon_links(*, include_placeholders: bool = False) -> str:
+    links = [
+        social_icon_item("facebook", SITE["facebook"], placeholder=include_placeholders),
+        social_icon_item("youtube", SITE["youtube"], placeholder=include_placeholders),
+    ]
+    return "\n              ".join(link for link in links if link)
+
+
+def mobile_menu_footer() -> str:
+    year = date.today().year
+    icons = social_icon_links(include_placeholders=True)
+    return f"""
+    <div class="mobile-menu-footer">
+      <div class="mobile-menu-footer__social">
+        <div class="social-icons">
+              {icons}
+        </div>
+      </div>
+      <p class="mobile-menu-footer__copy">&copy; {year} {SITE['legal_name']}. All rights reserved.</p>
+    </div>"""
 
 
 def social_block(kind: str, attrs: str = "") -> str:
@@ -1671,7 +1697,7 @@ def footer(root_prefix: str = "") -> str:
     <div class="mobile-nav-header">
       <a href="{root_prefix}index.html" class="mobile-menu-brand" aria-label="{SITE['brand']} home">
         {logo_coin("fw-logo-coin--menu", 36, SITE['brand'], logo_src)}
-        <span class="mobile-menu-brand-name">{SITE['short']}</span>
+        <span class="mobile-menu-brand-name">{SITE['menu_brand']}</span>
       </a>
       <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close navigation menu">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1702,10 +1728,7 @@ def footer(root_prefix: str = "") -> str:
       <a href="{root_prefix}contact.html" class="btn btn-primary btn-full">Request Free Estimate</a>
       {call_cta_link("fw-header-call--menu")}
     </div>
-    {social_block("mobile")}
-    <div class="mobile-menu-footer">
-      <p>{SITE['legal_name']}</p>
-    </div>
+    {mobile_menu_footer()}
   </nav>"""
 
 
@@ -2344,6 +2367,46 @@ def write_about() -> None:
     write_site_file(ROOT / "about.html", html)
 
 
+def contact_direct_block() -> str:
+    return f"""
+        <aside class="fw-contact-quick" data-fw-enter="left" aria-label="Direct contact information">
+          <div class="fw-contact-quick__head">
+            <h2 class="fw-contact-quick__title">Direct Contact</h2>
+            <p class="fw-contact-quick__lead">Prefer to reach out directly? Tyler responds to calls and emails personally.</p>
+          </div>
+          <ul class="fw-contact-quick__list">
+            <li class="fw-contact-quick__item">
+              <span class="fw-contact-quick__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <div class="fw-contact-quick__body">
+                <span class="fw-contact-quick__label">Phone</span>
+                <a class="fw-contact-quick__value fw-contact-quick__value--link" href="tel:{SITE['phone_tel']}">{SITE['phone_display']}</a>
+              </div>
+            </li>
+            <li class="fw-contact-quick__item">
+              <span class="fw-contact-quick__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </span>
+              <div class="fw-contact-quick__body">
+                <span class="fw-contact-quick__label">Email</span>
+                <a class="fw-contact-quick__value fw-contact-quick__value--link" href="mailto:{SITE['email']}">{SITE['email']}</a>
+              </div>
+            </li>
+            <li class="fw-contact-quick__item">
+              <span class="fw-contact-quick__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <div class="fw-contact-quick__body">
+                <span class="fw-contact-quick__label">Service area</span>
+                <span class="fw-contact-quick__value">{SITE['city']}, FL &amp; Central Florida</span>
+                <span class="fw-contact-quick__detail">{SITE['area_detail']}</span>
+              </div>
+            </li>
+          </ul>
+        </aside>"""
+
+
 def write_contact() -> None:
     contact_path = "contact.html"
     contact_title = f"Contact {SITE['brand']} | Free Outdoor Services Estimate"
@@ -2379,11 +2442,7 @@ def write_contact() -> None:
           <h2 class="card-name">Quick Estimate Request</h2>
           {estimate_form('contact-form', subject=f'Contact form - {SITE["brand"]}', page='contact.html')}
         </div>
-        <div class="contact-direct">
-          <div class="contact-direct-card"><p class="eyebrow">Phone</p><p><a href="tel:{SITE['phone_tel']}">{SITE['phone_display']}</a></p></div>
-          <div class="contact-direct-card"><p class="eyebrow">Email</p><p><a href="mailto:{SITE['email']}">{SITE['email']}</a></p></div>
-          <div class="contact-direct-card"><p class="eyebrow">Service Area</p><p>{SITE['city']}, FL<br>{SITE['area_detail']}</p></div>
-        </div>
+        {contact_direct_block()}
       </div>
     </section>
     {contact_intro_section()}
@@ -4371,6 +4430,8 @@ body.home-landing .hero-sub {
   font-size: clamp(0.92rem, min(1vw, 1.6vh), 1.05rem);
   margin-bottom: clamp(20px, 2.8vh, 32px);
   line-height: 1.6;
+  font-weight: 700;
+  color: #f5f0e8;
 }
 body.home-landing .hero-actions {
   margin-bottom: clamp(22px, 3vh, 36px);
@@ -5016,15 +5077,31 @@ body.home-landing .hero-follow-card__title {
 }
 .mobile-menu-footer {
   display: none;
-  padding: 16px 20px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px 22px;
+  border-top: 1px solid rgba(201, 162, 39, 0.22);
+  margin-top: 0;
   text-align: center;
+  flex-shrink: 0;
 }
-.mobile-menu-footer p {
+.mobile-menu-footer__social {
+  width: 100%;
+}
+.mobile-menu-footer__social .social-icons {
+  justify-content: center;
+}
+.mobile-menu-footer__copy {
   margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
+  line-height: 1.45;
   color: var(--muted);
+}
+.social-icon--placeholder {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
 }
 
 @media (max-width: 1320px) and (min-width: 1201px) {
@@ -5106,11 +5183,18 @@ body.home-landing .hero-follow-card__title {
   .mobile-nav {
     left: -100%;
     right: auto;
+    height: auto;
+    max-height: 100dvh;
     border-right: 1px solid rgba(201, 162, 39, 0.28);
     border-left: none;
     box-shadow: 10px 0 50px rgba(0, 0, 0, 0.6);
     background: linear-gradient(135deg, #111111 0%, #1a1a1a 50%, #111111 100%);
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-nav-links {
+    flex: 0 1 auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .mobile-nav.is-open {
     left: 0;
@@ -5395,6 +5479,21 @@ html.fw-js [data-fw-enter].is-visible {
 }
 .sp-hero .eyebrow {
   margin-bottom: 12px;
+}
+.hero-sub,
+.sp-hero .container > h1 + p {
+  font-weight: 700;
+  color: #f5f0e8;
+  text-shadow:
+    -1px -1px 0 #000,
+     0   -1px 0 #000,
+     1px -1px 0 #000,
+    -1px  0   0 #000,
+     1px  0   0 #000,
+    -1px  1px 0 #000,
+     0    1px 0 #000,
+     1px  1px 0 #000,
+     0 2px 14px rgba(0, 0, 0, 0.82);
 }
 .footer-inner .fw-logo-coin--footer {
   opacity: 0.92;
@@ -6684,6 +6783,108 @@ footer.fw-site-footer .footer-disclaimer {
   font-size: 0.76rem;
   color: var(--muted);
   line-height: 1.35;
+}
+.fw-contact-quick {
+  margin-top: 28px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: clamp(22px, 3vw, 30px);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(201, 162, 39, 0.24);
+  background: linear-gradient(160deg, rgba(16, 20, 16, 0.96) 0%, rgba(10, 10, 10, 0.98) 100%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+.fw-contact-quick__head {
+  margin-bottom: 6px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.16);
+}
+.fw-contact-quick__title {
+  margin: 0 0 8px;
+  font-family: var(--font-head);
+  font-size: clamp(1.05rem, 2vw, 1.32rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.15;
+}
+.fw-contact-quick__lead {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.fw-contact-quick__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.fw-contact-quick__item {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+.fw-contact-quick__item:first-child {
+  border-top: 0;
+}
+.fw-contact-quick__item:last-child {
+  padding-bottom: 0;
+}
+.fw-contact-quick__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(201, 162, 39, 0.1);
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  color: var(--accent);
+}
+.fw-contact-quick__icon svg {
+  width: 20px;
+  height: 20px;
+}
+.fw-contact-quick__body {
+  min-width: 0;
+}
+.fw-contact-quick__label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.fw-contact-quick__value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #fff;
+}
+.fw-contact-quick__value--link {
+  color: var(--accent);
+  text-decoration: none;
+  word-break: break-word;
+}
+.fw-contact-quick__value--link:hover,
+.fw-contact-quick__value--link:focus-visible {
+  text-decoration: underline;
+}
+.fw-contact-quick__detail {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 400;
 }
 @media (max-width: 1180px) {
   .home-services-hub-grid--buyer,
