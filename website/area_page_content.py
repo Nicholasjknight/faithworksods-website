@@ -16,6 +16,7 @@ from services_data import (
     NOT_OFFERED_NOTE,
     SERVICE_CATEGORIES,
     SERVICES,
+    SITE_EMAIL,
     SITE_POSITIONING,
     services_for_category,
 )
@@ -778,7 +779,7 @@ def county_area_faqs(county_name: str, cities: list[dict]) -> list[tuple[str, st
         ),
         (
             f"Who should I contact for Faith Works service in {county_name}?",
-            f"Contact {OWNER} through the estimate form, email contact@faithworksods.com, or call (863) 272-1596. Include your {county_name} city and property photos.",
+            f"Contact {OWNER} through the estimate form, email {SITE_EMAIL}, or call (863) 272-1596. Include your {county_name} city and property photos.",
         ),
     ]
     return list(profile.get("unique_faqs", [])) + core

@@ -54,6 +54,7 @@ from services_data import (
     SERVICE_CATEGORIES,
     SERVICE_COUNT,
     SERVICES,
+    SITE_EMAIL,
     SITE_POSITIONING,
     services_for_category,
 )
@@ -122,7 +123,7 @@ SITE = {
     "brand": "Faith Works Outdoor Services",
     "short": "Faith Works ODS",
     "owner": "Tyler R. Edwards",
-    "email": "contact@faithworksods.com",
+    "email": SITE_EMAIL,
     "phone_display": "(863) 272-1596",
     "phone_tel": "8632721596",
     "city": "Auburndale",
@@ -3657,7 +3658,7 @@ def write_styles() -> None:
   min-height: min(72vh, 680px);
 }
 body.home-landing .hero {
-  min-height: min(78vh, 760px);
+  min-height: clamp(480px, min(68svh, 72vh), 660px);
   overflow: visible;
   background: transparent;
 }
@@ -3766,8 +3767,28 @@ body.home-landing .hero-overlay {
 body.home-landing .hero-inner {
   position: relative;
   z-index: 3;
-  padding-top: clamp(56px, 8vh, 84px);
-  padding-bottom: clamp(112px, 14vh, 156px);
+  padding-top: clamp(36px, min(5.5svh, 6vh), 64px);
+  padding-bottom: clamp(72px, min(9svh, 10vh), 108px);
+  gap: clamp(24px, min(3.5svh, 4vw), 44px);
+}
+body.home-landing .hero-copy h1 {
+  font-size: clamp(1.9rem, min(4vw, 5vh), 3.35rem);
+  line-height: 1.02;
+  margin-bottom: clamp(14px, 2vh, 22px);
+}
+body.home-landing .hero-sub {
+  font-size: clamp(0.92rem, min(1vw, 1.6vh), 1.05rem);
+  margin-bottom: clamp(20px, 2.8vh, 32px);
+  line-height: 1.6;
+}
+body.home-landing .hero-actions {
+  margin-bottom: clamp(22px, 3vh, 36px);
+}
+body.home-landing .trust-row {
+  gap: clamp(14px, 2vw, 24px);
+}
+body.home-landing .trust-item strong {
+  font-size: clamp(1.25rem, min(2vw, 2.8vh), 1.55rem);
 }
 .hero-bg {
   position: absolute;
@@ -4136,6 +4157,98 @@ body.home-landing .hero-follow-card__title {
     margin-top: 8px;
     margin-bottom: 0;
     font-size: 0.78rem;
+  }
+}
+
+/* Short viewports (laptops) — keep hero + trust strip proportional */
+@media (max-height: 960px) and (min-width: 1061px) {
+  body.home-landing .hero {
+    min-height: auto;
+  }
+  body.home-landing .hero-inner {
+    padding-top: clamp(24px, 4svh, 44px);
+    padding-bottom: clamp(56px, 8svh, 80px);
+    gap: clamp(18px, 2.8svh, 28px);
+  }
+  body.home-landing .hero-copy h1 {
+    font-size: clamp(1.65rem, min(3.2vw, 4.2vh), 2.45rem);
+    margin-bottom: 12px;
+  }
+  body.home-landing .hero-sub {
+    font-size: clamp(0.88rem, 1.4vh, 0.98rem);
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+  body.home-landing .hero-actions {
+    margin-bottom: 18px;
+  }
+  body.home-landing .trust-row {
+    gap: 12px 18px;
+  }
+  body.home-landing .trust-item strong {
+    font-size: 1.2rem;
+  }
+  body.home-landing .trust-item span {
+    font-size: 0.68rem;
+  }
+  body.home-landing .hero-cutout-wrap {
+    height: min(68%, 380px);
+    width: min(30vw, 300px);
+  }
+  body.home-landing .hero-follow-banner {
+    margin-top: clamp(-56px, -6.5svh, -44px);
+  }
+  .hero-card {
+    padding: 22px 20px;
+  }
+  .hero-card .card-name {
+    font-size: 1.28rem;
+  }
+  .hero-card .card-note {
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+  }
+  .hero-card .contact-form-hero {
+    gap: 8px;
+  }
+  .hero-card .contact-form-hero .form-group input,
+  .hero-card .contact-form-hero .form-group select,
+  .hero-card .contact-form-hero .form-group textarea {
+    padding: 8px 10px;
+    font-size: 0.88rem;
+  }
+  .hero-card .contact-form-hero .form-group textarea {
+    min-height: 56px;
+  }
+  .hero-card .btn {
+    min-height: 46px;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 1061px) {
+  body.home-landing .hero-inner {
+    padding-top: clamp(18px, 3svh, 32px);
+    padding-bottom: clamp(48px, 7svh, 64px);
+  }
+  body.home-landing .hero-copy h1 {
+    font-size: clamp(1.5rem, min(2.8vw, 3.6vh), 2.1rem);
+  }
+  body.home-landing .hero-sub {
+    margin-bottom: 12px;
+  }
+  body.home-landing .hero-actions {
+    margin-bottom: 14px;
+  }
+  body.home-landing .hero-social {
+    margin-top: 18px;
+    padding-top: 14px;
+  }
+  body.home-landing .hero-cutout-wrap {
+    height: min(58%, 300px);
+    width: min(26vw, 260px);
+  }
+  body.home-landing .hero-follow-banner {
+    margin-top: clamp(-48px, -5.5svh, -36px);
   }
 }
 
@@ -4644,16 +4757,44 @@ html.fw-js [data-fw-enter].is-visible {
 
 /* Pill eyebrows */
 .eyebrow,
-.card-eyebrow {
+.card-eyebrow,
+.section-heading .eyebrow,
+.section-heading .card-eyebrow,
+.sp-hero .eyebrow,
+.sp-hero .card-eyebrow,
+.hero-copy .eyebrow,
+.hero-card .card-eyebrow,
+.contact-direct-card .eyebrow,
+.areas-strip .eyebrow {
   display: inline-flex;
   align-items: center;
   width: fit-content;
   max-width: 100%;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(201, 162, 39, 0.1);
-  border: 1px solid rgba(201, 162, 39, 0.28);
+  background: rgba(201, 162, 39, 0.36);
+  border: 1px solid rgba(201, 162, 39, 0.48);
+  color: #000;
+  -webkit-text-fill-color: #000;
   line-height: 1.35;
+}
+.eyebrow a,
+.card-eyebrow a,
+.section-heading .eyebrow a,
+.sp-hero .eyebrow a {
+  color: #000;
+  -webkit-text-fill-color: #000;
+  text-decoration: none;
+}
+.eyebrow a:hover,
+.card-eyebrow a:hover,
+.eyebrow a:focus-visible,
+.card-eyebrow a:focus-visible,
+.section-heading .eyebrow a:hover,
+.sp-hero .eyebrow a:hover {
+  color: #000;
+  -webkit-text-fill-color: #000;
+  text-decoration: underline;
 }
 .section-heading .eyebrow {
   margin-bottom: 14px;
@@ -5152,6 +5293,10 @@ html.fw-js [data-fw-enter].is-visible {
   .home-geo-strip__inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .home-geo-strip__copy {
+    flex: 0 0 auto;
+    width: 100%;
   }
   .home-geo-strip__actions {
     width: 100%;
@@ -5870,6 +6015,7 @@ def patch_script() -> None:
     text = (ROOT / "script.js").read_text(encoding="utf-8")
     text = text.replace("(727) 386-6562", SITE["phone_display"])
     text = text.replace("7273866562", SITE["phone_tel"])
+    text = text.replace("contact@faithworksods.com", SITE["email"])
     text = text.replace("Chris will be in touch shortly", "Tyler will review your project and contact you shortly")
     text = text.replace("hero-contact-form", "hero-contact-form")
     # Handle contact page form too
@@ -5900,12 +6046,12 @@ if (contactForm && contactSuccess && !heroForm) {
       } else {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
-        alert("Something went wrong. Please email contact@faithworksods.com directly.");
+        alert("Something went wrong. Please email {SITE['email']} directly.");
       }
     } catch {
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
-      alert("Could not send. Please email contact@faithworksods.com directly.");
+      alert("Could not send. Please email {SITE['email']} directly.");
     }
   });
 }

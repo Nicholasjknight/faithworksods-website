@@ -2,7 +2,7 @@
 """Register Faith Works estimate forms with Formspree.
 
 Creates the form endpoint and triggers Formspree's verification email to
-contact@faithworksods.com (required for first-time Formspree users).
+tyler@faithworksclearing.com (required for first-time Formspree users).
 
 Usage:
   python website/register_formspree.py
@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ID_FILE = ROOT / "formspree-id.txt"
-TARGET_EMAIL = "contact@faithworksods.com"
+TARGET_EMAIL = "tyler@faithworksclearing.com"
 BRAND = "Faith Works Outdoor Services"
 
 
@@ -119,7 +119,7 @@ def main() -> None:
         "Option A — Dashboard (recommended for first-time setup):\n"
         f"  1. Go to https://formspree.io/register and sign up with {TARGET_EMAIL}\n"
         "  2. Verify the email Formspree sends to that inbox\n"
-        "  3. Create a new form -> set target email to contact@faithworksods.com\n"
+        f"  3. Create a new form -> set target email to {TARGET_EMAIL}\n"
         "  4. Copy the form ID from Integration (e.g. xyzabcde)\n"
         f"  5. Save it: echo YOUR_FORM_ID > \"{ID_FILE}\"\n"
         "  6. Re-run: python website/register_formspree.py\n"

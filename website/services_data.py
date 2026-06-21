@@ -4,6 +4,7 @@ from __future__ import annotations
 
 AREA = "Polk County & Central Florida"
 CITY = "Auburndale"
+SITE_EMAIL = "tyler@faithworksclearing.com"
 
 # Exact positioning from communication1.txt
 SITE_POSITIONING = "Land Clearing, Pond Bank Clearing, Ditch Clearing & Outdoor Property Services"

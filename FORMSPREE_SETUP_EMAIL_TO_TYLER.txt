@@ -1,9 +1,9 @@
-TO: contact@faithworksods.com
+TO: tyler@faithworksclearing.com
 SUBJECT: One-time step — activate website estimate forms
 
 Hi Tyler,
 
-The contact forms on https://faithworksclearing.com send to contact@faithworksods.com.
+The contact forms on https://faithworksclearing.com send to tyler@faithworksclearing.com.
 
 IMPORTANT: Do NOT use any formsubmit.co/email/ link — that page does not exist.
 
@@ -12,7 +12,7 @@ To turn forms on (one-time):
 1. Go to https://faithworksclearing.com/contact.html
 2. Fill out the form with your name and phone (use a test message like "Form activation test")
 3. Click Send Estimate Request
-4. Check contact@faithworksods.com inbox AND spam/junk for an email from FormSubmit
+4. Check tyler@faithworksclearing.com inbox AND spam/junk for an email from FormSubmit
 5. Open that email and click the "Activate Form" link
 6. Submit the form one more time to confirm delivery
 

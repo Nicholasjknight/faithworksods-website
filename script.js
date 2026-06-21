@@ -141,13 +141,13 @@ function bindEstimateForm(form) {
         submitBtn.textContent = originalText;
         const msg =
           (data && (data.error || data.message)) ||
-          "Something went wrong. Please email contact@faithworksods.com directly.";
+          "Something went wrong. Please email tyler@faithworksclearing.com directly.";
         alert(msg);
       }
     } catch {
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
-      alert("Could not send. Please email contact@faithworksods.com directly.");
+      alert("Could not send. Please email tyler@faithworksclearing.com directly.");
     }
   });
 }
@@ -584,6 +584,12 @@ function initHeroPanels() {
 
 
 
+
+
+
+
+
+
 // ---- Band parallax (process + scope) ----
 (function initBandParallax() {
   const sections = document.querySelectorAll(".process-section--parallax, .scope-section--parallax");
@@ -636,6 +642,12 @@ function initHeroPanels() {
     queue();
   }, { passive: true });
 })();
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----
