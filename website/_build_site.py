@@ -204,6 +204,8 @@ def form_action_attrs(subject: str) -> tuple[str, str, str, str, str]:
 
 
 GALLERY = [
+    ("1-after.webp", "Completed residential property cleanup and brush clearing in Polk County Florida", "Property Cleanup"),
+
     ("excavator-and-truck-photo.webp", "Kubota excavator and dump trailer on a residential pool dig-out support site in Polk County Florida", "Pool Dig-Out Support"),
     ("excavator-photo.webp", "Kubota mini excavator on a land clearing job site in Polk County", "Land Clearing"),
     ("photo-of-all-equipment.webp", "Faith Works Outdoor Services fleet — Kubota excavator, tractor with loader, pickup, dump trailer, and flatbed trailer", "Equipment"),
@@ -219,7 +221,7 @@ GALLERY = [
     ("tractor-with-box-blade-leveling-ground.webp", "Kubota tractor with box blade leveling ground after brush clearing and cleanup", "Ditch Clearing"),
 ]
 
-ASSET_VERSION = "20260629"
+ASSET_VERSION = "20260703"
 HERO_DESKTOP = "photo-of-all-equipment.webp"
 HERO_MOBILE = "excavator-and-truck-photo.webp"
 HERO_MOBILE_LCP = f"heroes/{HERO_MOBILE}"
