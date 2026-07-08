@@ -91,6 +91,37 @@ initEnterAnimations();
 })();
 
 // ---- Formspree AJAX submission ----
+function currentUtmParams() {
+  const params = new URLSearchParams(window.location.search);
+  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+  return keys.reduce((acc, key) => {
+    acc[key] = params.get(key) || "";
+    return acc;
+  }, {});
+}
+
+function setHiddenValue(form, name, value) {
+  const field = form.querySelector(`input[type="hidden"][name="${name}"]`);
+  if (field) field.value = value || "";
+}
+
+function populateLeadAttribution(form) {
+  const utms = currentUtmParams();
+  setHiddenValue(form, "page_url", window.location.href);
+  setHiddenValue(form, "page_title", document.title);
+  setHiddenValue(form, "referrer", document.referrer);
+  Object.entries(utms).forEach(([key, value]) => setHiddenValue(form, key, value));
+}
+
+function trackConversionEvent(eventName, params = {}) {
+  if (typeof gtag !== "function") return;
+  gtag("event", eventName, {
+    page_location: window.location.href,
+    page_title: document.title,
+    ...params,
+  });
+}
+
 function validateEstimateForm(form) {
   const gotcha = form.querySelector('input[name="_gotcha"]');
   if (gotcha && gotcha.value.trim()) {
@@ -168,6 +199,7 @@ function bindEstimateForm(form) {
     const submitBtn = form.querySelector("[type='submit']");
     const originalText = submitBtn.textContent;
 
+    populateLeadAttribution(form);
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending...";
 
@@ -187,9 +219,13 @@ function bindEstimateForm(form) {
 
       if (res.ok) {
         submitBtn.textContent = "Sent!";
-        if (typeof gtag === "function") {
-          gtag("event", "generate_lead", { event_category: "form", event_label: form.id || "estimate_form" });
-        }
+        trackConversionEvent("generate_lead", {
+          event_category: "form",
+          event_label: form.id || "estimate_form",
+          form_id: form.id || "",
+          service: (form.querySelector('[name="service"]') && form.querySelector('[name="service"]').value) || "",
+          form_page: (form.querySelector('[name="page"]') && form.querySelector('[name="page"]').value) || "",
+        });
         setTimeout(() => {
           form.hidden = true;
           success.hidden = false;
@@ -216,9 +252,18 @@ document.querySelectorAll(".contact-form").forEach(bindEstimateForm);
 
 document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
   link.addEventListener("click", () => {
-    if (typeof gtag === "function") {
-      gtag("event", "phone_click", { event_category: "contact", event_label: link.getAttribute("href") });
-    }
+    trackConversionEvent("phone_click", {
+      event_category: "contact",
+      event_label: link.getAttribute("href"),
+      link_text: link.textContent.trim().replace(/\s+/g, " "),
+      cta_location: link.closest("header")
+        ? "header"
+        : link.closest("footer")
+          ? "footer"
+          : link.closest("aside")
+            ? "sidebar"
+            : "body",
+    });
   });
 });
 
@@ -671,6 +716,9 @@ function initHeroPanels() {
 
 
 
+
+
+
 // ---- Band parallax (process + scope) ----
 (function initBandParallax() {
   const sections = document.querySelectorAll(".process-section--parallax, .scope-section--parallax");
@@ -723,6 +771,9 @@ function initHeroPanels() {
     queue();
   }, { passive: true });
 })();
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
+// ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----
 // ---- Band parallax (process + scope) ----

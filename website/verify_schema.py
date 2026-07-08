@@ -32,6 +32,9 @@ PAGE_EXPECTATIONS = {
     "privacy-policy.html": {
         "required": ["Organization", "WebPage", "BreadcrumbList"],
     },
+    "image-use-policy.html": {
+        "required": ["Organization", "WebPage", "BreadcrumbList"],
+    },
 }
 
 SERVICE_EXPECTATIONS = {

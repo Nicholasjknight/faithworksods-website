@@ -1,0 +1,42 @@
+{
+  "tool": "gsc-auditer",
+  "sourceOfTruth": "E:/GSC Auditer",
+  "generatedAt": "2026-07-08T13:56:34.715Z",
+  "site": {
+    "name": "Faith Works Clearing",
+    "domain": "faithworksclearing.com",
+    "productionUrl": "https://faithworksclearing.com"
+  },
+  "propertyUrl": "sc-domain:faithworksclearing.com",
+  "period": {
+    "startDate": "2026-04-09",
+    "endDate": "2026-07-05",
+    "days": 90
+  },
+  "outputs": {
+    "performance": "api/performance.json",
+    "sitemaps": "api/sitemaps.json",
+    "urlInspection": "api/url-inspection.json",
+    "ui": "ui/manifest.json",
+    "analysis": "analysis.json",
+    "report": "report.md"
+  },
+  "summary": {
+    "totals": {
+      "clicks": 9,
+      "impressions": 761,
+      "ctr": 0.011826544021024968,
+      "position": 54.88304862023653
+    },
+    "queryCount": 142,
+    "pageCount": 54,
+    "commercialQueryCount": 142,
+    "brandQueryCount": 0,
+    "sitemapCount": 1,
+    "inspectedUrlCount": 12,
+    "findingCount": 8,
+    "uiReportCount": 12,
+    "uiDownloadCount": 4
+  },
+  "findingCount": 8
+}

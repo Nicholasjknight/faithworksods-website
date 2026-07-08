@@ -1,0 +1,71 @@
+{
+  "id": "index-pages",
+  "label": "Pages indexing",
+  "group": "indexing",
+  "url": "https://search.google.com/search-console/index?resource_id=sc-domain%3Afaithworksclearing.com",
+  "outputDir": "indexing\\index-pages",
+  "title": "Page indexing",
+  "exportedAt": "2026-07-08T13:58:10.216Z",
+  "download": {
+    "file": "index-pages.zip",
+    "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\indexing\\index-pages\\index-pages.zip",
+    "suggestedFilename": "faithworksclearing.com-Coverage-2026-07-08.zip",
+    "format": "zip"
+  },
+  "summaryLines": [
+    "Google AccountNicholas Knightnickknight488@gmail.com",
+    "nickknight488@gmail.com",
+    "\n\t\n4",
+    "\n4",
+    "lightbulb_2\nInsights",
+    "lightbulb_2",
+    "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+    "link_2\nLinks",
+    "link_2",
+    "All known pages\nAll submitted pages\nUnsubmitted pages only\nhttps://faithworksclearing.com/sitemap.xml\nLast update: 6/29/26",
+    "Last update: 6/29/26",
+    "\nNot indexed\n42\n3 reasons\n",
+    "\nNot indexed\n42\n3 reasons",
+    "3 reasons",
+    "\nIndexed\n43\n",
+    "\nIndexed\n43",
+    "100",
+    "250",
+    "500",
+    "1-3 of 3\n",
+    "1-3 of 3"
+  ],
+  "tableRowCount": 4,
+  "tables": [
+    [
+      [
+        "Reason",
+        "Source\n",
+        "Validation",
+        "Trend",
+        "Pages"
+      ],
+      [
+        "Page with redirect",
+        "Website",
+        "\nNot Started",
+        "",
+        "2"
+      ],
+      [
+        "Alternate page with proper canonical tag",
+        "Website",
+        "\nNot Started",
+        "",
+        "1"
+      ],
+      [
+        "Discovered - currently not indexed",
+        "Google systems",
+        "\nNot Started",
+        "",
+        "39"
+      ]
+    ]
+  ]
+}

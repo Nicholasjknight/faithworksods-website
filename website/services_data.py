@@ -203,21 +203,22 @@ SERVICES = [
         phase1=True,
         nav="Brush Clearing",
         form_label="Brush Clearing / Brush Cutting",
-        title=f"Brush Clearing & Brush Cutting in {AREA}, FL",
-        h1=f"Brush Clearing & Brush Cutting — {AREA}",
-        desc=f"Brush clearing and brush cutting for overgrown property edges, fields, and wooded areas in {CITY} and Polk County.",
-        keyword="brush clearing Polk County FL",
+        title="Brush Clearing in Auburndale & Polk County | Faith Works",
+        h1="Brush Clearing & Brush Removal — Auburndale & Polk County",
+        desc="Brush clearing and brush removal for overgrown lots, fence lines, pond banks, trails, and acreage in Auburndale, Lakeland, Winter Haven, and Polk County.",
+        keyword="brush removal services near me",
         intro=(
-            "Thick brush takes over fast in Central Florida — along fence lines, pond banks, ditches, and unused acreage. "
-            "Faith Works Outdoor Services cuts and clears brush using compact tractors, brush cutters, and mulching "
-            "equipment sized for residential and rural properties."
+            "When you search for brush removal services near me, you usually need more than a lawn crew. Thick brush "
+            "takes over fast around Auburndale and Polk County — along fence lines, pond banks, trails, ditches, "
+            "unused acreage, and the edges of homes or barns. Faith Works Outdoor Services cuts and clears brush "
+            "with compact tractors, brush cutters, and mulching equipment sized for residential and rural properties."
         ),
         bullets=[
             "Heavy brush and sapling removal",
-            "Brush cutting along property lines and fence rows",
+            "Brush cutting along property lines, trails, and fence rows",
             "Clearing around ponds, ditches, and structures",
             "Selective brush removal where you want to keep trees",
-            "Debris cleanup and haul-off after brush work",
+            "Debris cleanup, piling, or haul-off after brush work",
         ],
         benefits=[
             "Reclaims usable space from overgrown brush",
@@ -229,9 +230,9 @@ SERVICES = [
             "Fence lines swallowed by vegetation",
             "Field edges and property boundaries",
             "Areas too thick to mow with a lawn tractor",
-            "Pond banks and ditch lines with heavy brush",
+            "Pond banks, trails, and ditch lines with heavy brush",
         ],
-        related_slugs=["forestry-mulching", "fence-line-clearing", "overgrowth-removal", "tractor-services"],
+        related_slugs=["overgrowth-removal", "fence-line-clearing", "trail-clearing", "forestry-mulching"],
         mosaic_headline="Brush taking over your property edges?",
         mosaic_image="stump-during-removal-1.webp",
         index=2,
@@ -240,14 +241,15 @@ SERVICES = [
         "forestry-mulching",
         "Forestry Mulching",
         category="clearing",
-        title=f"Forestry Mulching Services in {AREA}, FL",
-        h1=f"Forestry Mulching — {AREA}",
-        desc=f"Forestry mulching for land clearing, overgrowth removal, and vegetation management in {CITY} and Polk County.",
+        title="Forestry Mulching in Polk County, FL | Faith Works",
+        h1="Forestry Mulching — Auburndale, Polk County & Nearby Areas",
+        desc="Forestry mulching for overgrown acreage, brush, fence lines, access paths, and pond banks in Auburndale, Lakeland, Winter Haven, and Polk County.",
         keyword="forestry mulching Polk County FL",
         intro=(
-            "Forestry mulching grinds vegetation in place — reducing haul-off, opening up land faster, and leaving "
-            "a cleaner finish on many clearing jobs. Faith Works Outdoor Services uses mulching equipment for "
-            "overgrown acreage, pond banks, fence lines, and property cleanup across Central Florida."
+            "Forestry mulching is one of the fastest ways to reduce dense Florida undergrowth without turning every "
+            "job into a haul-off project. Faith Works Outdoor Services uses mulching equipment for overgrown acreage, "
+            "brush removal, fence lines, access paths, pond banks, and property cleanup in Auburndale, Lakeland, "
+            "Winter Haven, and nearby Polk County communities."
         ),
         bullets=[
             "Forestry mulching for overgrown lots and acreage",
@@ -278,21 +280,22 @@ SERVICES = [
         "Pond Bank Clearing",
         category="phase1",
         phase1=True,
-        title=f"Pond Bank Clearing & Brush Removal in Polk County",
+        title="Pond Bank Clearing in Auburndale, Lakeland & Winter Haven",
         h1="Pond Bank Clearing & Brush Removal — Polk County",
-        desc=f"Clean overgrown pond banks with mulching equipment and brush cutters in {CITY} and Polk County.",
-        keyword="pond bank clearing Polk County",
+        desc="Clean overgrown pond banks, retention pond edges, and private water edges with brush cutting and mulching equipment in Auburndale, Lakeland, Winter Haven, and Polk County.",
+        keyword="pond bank clearing",
         intro=(
-            "Overgrown pond banks reduce access, block views, and make maintenance harder. Faith Works Outdoor Services "
-            "clears pond banks using mulching equipment and brush cutters built for tough vegetation along water edges "
-            "and retention areas — pond bank work and mulching, not engineered stormwater installation."
+            "Overgrown pond banks reduce access, block views, hide slopes, and make routine maintenance harder. Faith "
+            "Works Outdoor Services clears private pond banks, retention pond edges, and lake-country water edges "
+            "using mulching equipment and brush cutters built for tough vegetation — pond bank clearing and cleanup, "
+            "not engineered stormwater installation."
         ),
         bullets=[
             "Overgrown pond bank clearing",
-            "Brush cutting along pond edges",
+            "Brush cutting along pond and retention edges",
             "Mulching of thick vegetation on banks",
             "Access improvement around ponds and retention areas",
-            "Debris cleanup after bank work",
+            "Debris cleanup, stacking, or haul-off after bank work",
         ],
         benefits=[
             "Improves pond appearance and visibility",
@@ -304,7 +307,7 @@ SERVICES = [
             "Pond banks you cannot reach or maintain",
             "Retention ponds on residential or rural property",
             "Shorelines blocked by brush and saplings",
-            "Property owners who want a cleaner water edge",
+            "Property owners who want a cleaner and more visible water edge",
         ],
         related_slugs=["pond-cleanup", "pond-management", "brush-clearing", "forestry-mulching"],
         mosaic_headline="Pond banks overgrown and blocking access?",
@@ -466,14 +469,14 @@ SERVICES = [
         "storm-debris-cleanup",
         "Storm Debris Cleanup",
         category="cleanup",
-        title=f"Storm Debris Cleanup in {AREA}, FL",
-        h1=f"Storm Debris Cleanup — {AREA}",
-        desc=f"Storm debris cleanup for fallen branches, yard mess, and outdoor property damage in {CITY} and Polk County.",
+        title="Storm Debris Cleanup in Polk County | Call or Text Tyler",
+        h1="Storm Debris Cleanup — Auburndale, Polk County & Nearby Areas",
+        desc="Storm debris cleanup for fallen limbs, brush piles, blocked driveways, access paths, and outdoor property cleanup in Auburndale and Polk County.",
         keyword="storm debris cleanup Polk County FL",
         intro=(
-            "Storms leave behind branches, scattered debris, and blocked access across Florida properties. "
-            "Faith Works Outdoor Services helps homeowners and property owners clean up storm debris — "
-            "clearing paths, hauling brush, and restoring usable outdoor space after weather events."
+            "Storms leave behind fallen limbs, scattered debris, blocked driveways, brush piles, and access paths "
+            "that are hard to clear by hand. Faith Works Outdoor Services helps Polk County homeowners and landowners "
+            "clean up storm debris, restore usable access, and get outdoor areas under control after weather events."
         ),
         bullets=[
             "Fallen branch and limb cleanup",
@@ -614,30 +617,31 @@ SERVICES = [
         "access-road-clearing",
         "Access Road Clearing",
         category="clearing",
-        title=f"Access Road Clearing in {AREA}, FL",
-        h1=f"Access Road Clearing — {AREA}",
-        desc=f"Clear overgrown access roads, drive paths, and private lanes in {CITY} and rural Polk County properties.",
-        keyword="access road clearing Florida",
+        title="Private Road & Access Path Clearing in Mulberry, FL",
+        h1="Private Road & Access Path Clearing — Polk County",
+        desc="Clear private roads, ranch lanes, driveway edges, equipment paths, and overgrown access routes in Mulberry, Eagle Lake, Auburndale, and Polk County.",
+        keyword="private road clearing Mulberry FL",
         intro=(
-            "Private access roads, farm lanes, and long drive paths disappear under Florida growth within a season. "
-            "Faith Works Outdoor Services clears access roads so you can reach barns, ponds, fields, and back acreage "
-            "safely again — using tractors, brush cutters, and clearing equipment."
+            "Private roads, farm lanes, driveway edges, and long equipment paths disappear under Florida growth within "
+            "a season. Faith Works Outdoor Services clears access routes so you can reach barns, ponds, fields, and "
+            "back acreage again — especially on rural Polk County properties around Mulberry, Eagle Lake, Auburndale, "
+            "and nearby communities."
         ),
         bullets=[
-            "Overgrown access road and lane clearing",
-            "Private drive path reopening",
+            "Overgrown private road and lane clearing",
+            "Driveway edge and equipment path reopening",
             "Brush cutting along road edges",
             "Debris removal from cleared access paths",
             "Width and clearance planning with property owners",
         ],
         benefits=[
             "Restores vehicle access to back acreage",
-            "Improves safety on overgrown private roads",
+            "Improves safety on overgrown private roads and long drives",
             "Reduces damage from branches and hidden obstacles",
             "Ideal for rural and acreage properties",
         ],
         ideal_for=[
-            "Farm lanes and private drive paths",
+            "Farm lanes, ranch roads, and private drive paths",
             "Roads to ponds, barns, or hunting areas",
             "Properties where you cannot reach the back acreage",
             "Rural land with seasonal overgrowth on access routes",
@@ -838,26 +842,27 @@ SERVICES = [
         "ditch-maintenance",
         "Ditch Maintenance",
         category="maintenance",
-        title=f"Ditch Maintenance Services in {AREA}, FL",
-        h1=f"Ditch Maintenance — {AREA}",
-        desc=f"Ditch maintenance for runoff paths, swales, and drainage easements in {CITY} and Polk County.",
+        title="Ditch Maintenance in Polk County, FL | Faith Works",
+        h1="Ditch Maintenance — Auburndale, Polk County & Nearby Areas",
+        desc="Ditch maintenance for overgrown runoff paths, swales, drainage easements, and rain-season vegetation control in Auburndale and Polk County.",
         keyword="ditch maintenance Polk County FL",
         intro=(
-            "Ditches and runoff paths clog back up quickly in Florida. Faith Works Outdoor Services provides ditch "
-            "maintenance — keeping vegetation cut back and paths open so water can move during rain season. "
-            "This is ditch-line clearing and maintenance, not engineered stormwater system installation."
+            "Ditches, swales, and runoff paths clog back up quickly in Florida rain season. Faith Works Outdoor "
+            "Services provides ditch maintenance for Polk County property owners — cutting back vegetation, opening "
+            "access, and keeping outdoor drainage paths easier to inspect and maintain. This is ditch-line clearing "
+            "and vegetation maintenance, not engineered stormwater system installation."
         ),
         bullets=[
             "Seasonal ditch and swale maintenance",
             "Vegetation cutback along runoff paths",
             "Recurring clearing in drainage easements",
             "Follow-up work after initial ditch clearing",
-            "Maintenance visits before heavy rain season",
+            "Preventive cleanup before heavy rain season",
         ],
         benefits=[
             "Reduces repeat flooding from overgrown ditches",
             "Costs less than full ditch re-clearing each year",
-            "Keeps property drainage paths accessible",
+            "Keeps ditch lines visible, accessible, and easier to inspect",
             "Natural fit after an initial ditch clearing project",
         ],
         ideal_for=[

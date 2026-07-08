@@ -1,0 +1,138 @@
+{
+  "siteUrl": "sc-domain:faithworksclearing.com",
+  "inspectedAt": "2026-07-08T13:56:34.715Z",
+  "results": [
+    {
+      "url": "https://faithworksclearing.com/",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/",
+      "googleCanonical": "https://faithworksclearing.com/",
+      "lastCrawlTime": "2026-07-05T12:50:05Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/about.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/about.html",
+      "googleCanonical": "https://faithworksclearing.com/about.html",
+      "lastCrawlTime": "2026-07-01T18:35:47Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/services.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/services.html",
+      "googleCanonical": "https://faithworksclearing.com/services.html",
+      "lastCrawlTime": "2026-07-02T04:03:37Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/contact.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/contact.html",
+      "googleCanonical": "https://faithworksclearing.com/contact.html",
+      "lastCrawlTime": "2026-07-01T15:06:53Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/brush-clearing.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/brush-clearing.html",
+      "googleCanonical": "https://faithworksclearing.com/brush-clearing.html",
+      "lastCrawlTime": "2026-06-21T15:23:20Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/access-road-clearing.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/access-road-clearing.html",
+      "googleCanonical": "https://faithworksclearing.com/access-road-clearing.html",
+      "lastCrawlTime": "2026-07-02T05:42:48Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/pond-bank-clearing.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/pond-bank-clearing.html",
+      "googleCanonical": "https://faithworksclearing.com/pond-bank-clearing.html",
+      "lastCrawlTime": "2026-06-21T21:59:02Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/ditch-maintenance.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/ditch-maintenance.html",
+      "googleCanonical": "https://faithworksclearing.com/ditch-maintenance.html",
+      "lastCrawlTime": "2026-06-21T22:09:22Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/storm-debris-cleanup.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/storm-debris-cleanup.html",
+      "googleCanonical": "https://faithworksclearing.com/storm-debris-cleanup.html",
+      "lastCrawlTime": "2026-06-21T19:26:55Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/areas/auburndale-fl.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/areas/auburndale-fl.html",
+      "googleCanonical": "https://faithworksclearing.com/areas/auburndale-fl.html",
+      "lastCrawlTime": "2026-06-21T22:10:24Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/areas/mulberry-fl.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/areas/mulberry-fl.html",
+      "googleCanonical": "https://faithworksclearing.com/areas/mulberry-fl.html",
+      "lastCrawlTime": "2026-06-21T20:38:06Z"
+    },
+    {
+      "url": "https://faithworksclearing.com/areas/eagle-lake-fl.html",
+      "verdict": "PASS",
+      "coverageState": "Submitted and indexed",
+      "indexingState": "INDEXING_ALLOWED",
+      "robotsTxtState": "ALLOWED",
+      "pageFetchState": "SUCCESSFUL",
+      "userCanonical": "https://faithworksclearing.com/areas/eagle-lake-fl.html",
+      "googleCanonical": "https://faithworksclearing.com/areas/eagle-lake-fl.html",
+      "lastCrawlTime": "2026-06-21T19:36:23Z"
+    }
+  ]
+}

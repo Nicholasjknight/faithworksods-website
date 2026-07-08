@@ -308,17 +308,18 @@ REMAINING_CITY_PROFILES: dict[str, dict] = {
     },
     "mulberry-fl": {
         "meta_description": (
-            "Land clearing and acreage cleanup in Mulberry, FL — phosphate country and south Polk ranch land. "
-            "Faith Works from Auburndale. Forestry mulching and pond bank work."
+            "Private road clearing, land clearing, pond bank work, and acreage cleanup in Mulberry, FL. "
+            "Faith Works clears south Polk ranch access, brush, and overgrowth."
         ),
         "hook": (
             "Mulberry's phosphate heritage and rural south Polk location mean large acreage, pond edges, and "
             "long fence lines where brush regrowth needs forestry equipment rather than hand labor."
         ),
         "context": (
-            "Properties between Mulberry and Bartow often combine ranch access roads, retention ponds, and "
-            "former agricultural edges where summer growth closes paths and obscures property boundaries before "
-            "owners notice until access becomes difficult."
+            "Properties between Mulberry and Bartow often combine ranch access roads, private lanes, retention ponds, "
+            "and former agricultural edges where summer growth closes paths and obscures property boundaries before "
+            "owners notice until access becomes difficult. That is why private road clearing, driveway-edge clearing, "
+            "and acreage cleanup are priority services for Mulberry property owners."
         ),
         "local_detail": (
             "Land toward Nichols and Fort Green frequently involves multi-acre fence runs and pond banks where "
@@ -332,30 +333,30 @@ REMAINING_CITY_PROFILES: dict[str, dict] = {
             "Estate parcels needing cleanup before transfer",
         ],
         "common_jobs": [
-            "Access road clearing on Mulberry ranch properties",
+            "Private road and access road clearing on Mulberry ranch properties",
+            "Driveway edge clearing where brush narrows equipment access",
             "Pond bank brush removal on rural water features",
             "Forestry mulching on multi-acre south Polk land",
             "Fence line reopening on long ranch boundaries",
-            "Acreage cleanup for listing or probate",
             "Ditch clearing on CR-640 and rural frontage",
         ],
         "intent_routes": [
-            {"label": "Ranch access roads", "slug": "access-road-clearing", "text": "Reopen overgrown access paths on Mulberry ranch and acreage parcels."},
+            {"label": "Private roads and ranch access", "slug": "access-road-clearing", "text": "Reopen overgrown private roads, driveway edges, and access paths on Mulberry acreage."},
             {"label": "South Polk mulching", "slug": "forestry-mulching", "text": "Mulch saplings and thick brush on Mulberry multi-acre land."},
             {"label": "Rural pond banks", "slug": "pond-bank-clearing", "text": "Cut back brush on private pond edges near Mulberry."},
             {"label": "Estate acreage cleanup", "slug": "acreage-cleanup", "text": "Restore usable acreage on overgrown Mulberry properties."},
         ],
         "unique_faqs": [
             (
-                "Does Faith Works handle large Mulberry ranch and acreage properties?",
-                "Multi-acre Mulberry parcels with access roads and fence lines are common — send aerial or ground photos showing boundaries and entry points for scope planning.",
+                "Does Faith Works clear private roads and ranch access in Mulberry?",
+                "Yes. Private road clearing, ranch access paths, and long driveway edges are common Mulberry requests — send photos showing the path, width, entry point, and where access needs to be restored.",
             ),
             (
                 "Can Faith Works clear land near Mulberry's phosphate and industrial areas?",
                 "We clear private outdoor property you own or maintain — send photos of the work area, access routes, and any obstacles so scope stays accurate for Mulberry jobs.",
             ),
         ],
-        "strip_note": "Mulberry ranch access, south Polk acreage, and pond bank clearing.",
+        "strip_note": "Mulberry private road clearing, south Polk acreage, and pond bank work.",
     },
     "fort-meade-fl": {
         "meta_description": (
@@ -512,8 +513,8 @@ REMAINING_CITY_PROFILES: dict[str, dict] = {
     },
     "eagle-lake-fl": {
         "meta_description": (
-            "Land clearing and pond work in Eagle Lake, FL — Lake Eloise area and Polk lake country. "
-            "Faith Works from Auburndale. Brush cutting and ditch clearing. Free photo estimates."
+            "Land clearing, pond bank work, access path clearing, and brush removal in Eagle Lake, FL. "
+            "Faith Works serves Lake Eloise-area properties from Auburndale."
         ),
         "hook": (
             "Eagle Lake is a quiet Polk community on the Winter Haven Chain of Lakes fringe where Lake Eloise "
@@ -522,7 +523,8 @@ REMAINING_CITY_PROFILES: dict[str, dict] = {
         "context": (
             "Faith Works handles Eagle Lake jobs where lake-adjacent properties, citrus remnants, and drainage "
             "ditches along local roads have grown beyond what lawn maintenance covers — especially on parcels "
-            "between Winter Haven and Bartow."
+            "between Winter Haven and Bartow. The same properties often need access path clearing, driveway edge "
+            "cleanup, and brush removal before pond banks or fence lines can be maintained."
         ),
         "local_detail": (
             "Canal-side homes near Eagle Lake often need brush cut back for water access and visibility without "
@@ -538,14 +540,14 @@ REMAINING_CITY_PROFILES: dict[str, dict] = {
         "common_jobs": [
             "Lake Eloise pond bank brush removal",
             "Canal edge clearing on Eagle Lake waterfront lots",
+            "Access path and driveway edge clearing on lake-country parcels",
             "Fence line reopening on small-acreage parcels",
             "Ditch clearing on Eagle Lake road frontage",
-            "Rear lot clearing before fencing projects",
             "Storm debris cleanup on lake-canopy properties",
         ],
         "intent_routes": [
             {"label": "Lake Eloise banks", "slug": "pond-bank-clearing", "text": "Trim brush on private banks along Lake Eloise in Eagle Lake."},
-            {"label": "Canal edge work", "slug": "pond-cleanup", "text": "Clean canal and water edges on Eagle Lake waterfront properties."},
+            {"label": "Access paths and drive edges", "slug": "access-road-clearing", "text": "Clear overgrown drive edges and private paths on Eagle Lake properties."},
             {"label": "Lake-country lots", "slug": "land-clearing", "text": "Clear overgrown sections on Eagle Lake residential parcels."},
             {"label": "Storm debris haul-off", "slug": "storm-debris-cleanup", "text": "Remove limbs and brush after storms on Eagle Lake properties."},
         ],

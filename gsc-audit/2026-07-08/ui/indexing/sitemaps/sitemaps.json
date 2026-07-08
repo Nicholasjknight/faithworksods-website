@@ -1,0 +1,53 @@
+{
+  "id": "sitemaps",
+  "label": "Sitemaps",
+  "group": "indexing",
+  "url": "https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Afaithworksclearing.com",
+  "outputDir": "indexing\\sitemaps",
+  "title": "Sitemaps",
+  "exportedAt": "2026-07-08T13:58:38.279Z",
+  "download": null,
+  "summaryLines": [
+    "Google AccountNicholas Knightnickknight488@gmail.com",
+    "nickknight488@gmail.com",
+    "\n\t\n4",
+    "\n4",
+    "lightbulb_2\nInsights",
+    "lightbulb_2",
+    "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+    "link_2\nLinks",
+    "link_2",
+    "Jun 21, 2026",
+    "Jun 22, 2026",
+    "100",
+    "250",
+    "500",
+    "1-1 of 1\n",
+    "1-1 of 1"
+  ],
+  "tableRowCount": 2,
+  "tables": [
+    [
+      [
+        "Sitemap",
+        "Type",
+        "Submitted",
+        "Last read",
+        "Status",
+        "Discovered pages",
+        "Discovered videos",
+        ""
+      ],
+      [
+        "https://faithworksclearing.com/sitemap.xml",
+        "Sitemap",
+        "Jun 21, 2026",
+        "Jun 22, 2026",
+        "Success",
+        "81",
+        "0",
+        ""
+      ]
+    ]
+  ]
+}

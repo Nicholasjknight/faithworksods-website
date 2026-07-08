@@ -1,0 +1,71 @@
+{
+  "id": "image-licenses",
+  "label": "image-licenses",
+  "group": "enhancements",
+  "url": "https://search.google.com/search-console/r/image-licenses?resource_id=sc-domain%3Afaithworksclearing.com",
+  "outputDir": "enhancements\\image-licenses",
+  "title": "Image Metadata",
+  "exportedAt": "2026-07-08T13:59:14.712Z",
+  "download": {
+    "file": "image-licenses.zip",
+    "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\enhancements\\image-licenses\\image-licenses.zip",
+    "suggestedFilename": "faithworksclearing.com-Image Metadata-2026-07-08.zip",
+    "format": "zip"
+  },
+  "summaryLines": [
+    "\n\t\n4",
+    "\n4",
+    "lightbulb_2\nInsights",
+    "lightbulb_2",
+    "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+    "link_2\nLinks",
+    "link_2",
+    "Last update: 7/6/26",
+    "\nInvalid\n0\nNo critical issues\n",
+    "\nInvalid\n0\nNo critical issues",
+    "\nValid\n13\n",
+    "\nValid\n13",
+    "100",
+    "250",
+    "500",
+    "1-4 of 4\n",
+    "1-4 of 4",
+    "Google AccountNicholas Knightnickknight488@gmail.com",
+    "nickknight488@gmail.com"
+  ],
+  "tableRowCount": 5,
+  "tables": [
+    [
+      [
+        "Issue",
+        "Validation",
+        "Trend",
+        "Items"
+      ],
+      [
+        "Missing field \"acquireLicensePage\"",
+        "\nNot Started",
+        "",
+        "13"
+      ],
+      [
+        "Missing field \"copyrightNotice\"",
+        "\nNot Started",
+        "",
+        "13"
+      ],
+      [
+        "Missing field \"license\"",
+        "\nNot Started",
+        "",
+        "13"
+      ],
+      [
+        "Missing field \"creditText\"",
+        "\nNot Started",
+        "",
+        "13"
+      ]
+    ]
+  ]
+}

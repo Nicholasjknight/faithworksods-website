@@ -237,6 +237,7 @@ CONTACT_BANNER = "Gallery/equipment-photos5.webp"
 CONTACT_CUTOUT = "Images/fw-banner-cutout.webp"
 PROCESS_BG = "Gallery/tractor-with-box-blade-leveling-ground.webp"
 SCOPE_BG = "Gallery/equipment-photos.webp"
+IMAGE_LICENSE_PAGE = "image-use-policy.html"
 
 GOOGLE_G_LOGO = """<svg class="fw-google-g-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
                                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -1029,6 +1030,31 @@ def home_services_hub_section() -> str:
     </section>"""
 
 
+def priority_visibility_cluster(root_prefix: str = "") -> str:
+    links = [
+        ("Brush clearing in Auburndale", "brush-clearing.html"),
+        ("Private road clearing in Mulberry", "access-road-clearing.html"),
+        ("Pond bank clearing in Winter Haven", "pond-bank-clearing.html"),
+        ("Ditch maintenance in Polk County", "ditch-maintenance.html"),
+        ("Storm debris cleanup", "storm-debris-cleanup.html"),
+        ("Mulberry outdoor services", "areas/mulberry-fl.html"),
+        ("Eagle Lake outdoor services", "areas/eagle-lake-fl.html"),
+        ("Auburndale outdoor services", "areas/auburndale-fl.html"),
+    ]
+    items = "".join(f'<a href="{root_prefix}{href}">{label}</a>' for label, href in links)
+    return f"""
+    <section class="section-shell priority-visibility-cluster">
+      <div class="container">
+        <div class="section-heading" data-fw-enter="left">
+          <p class="eyebrow">High-demand local services</p>
+          <h2>Start With The Pages Polk County Property Owners Search For</h2>
+          <p>These services and city pages match early Google Search Console visibility: brush removal, private roads, pond banks, ditch maintenance, storm cleanup, and nearby Polk County jobs.</p>
+        </div>
+        <div class="area-card-links area-card-links--wrap" data-fw-enter="top">{items}</div>
+      </div>
+    </section>"""
+
+
 def home_faq_section() -> str:
     return f"""
     <section id="faq" class="faq-section section-shell">
@@ -1227,8 +1253,19 @@ def contact_bottom_cta_section() -> str:
 def service_scope_details(s: dict) -> str:
     details = "\n".join(f"              <li>{b}</li>" for b in s["bullets"][:4])
     fits = "\n".join(f"              <li>{item}</li>" for item in s["ideal_for"][:4])
+    priority_city_slugs = [
+        "auburndale-fl",
+        "lakeland-fl",
+        "winter-haven-fl",
+        "mulberry-fl",
+        "eagle-lake-fl",
+        "bartow-fl",
+        "lake-alfred-fl",
+        "haines-city-fl",
+    ]
+    priority_cities = [CITY_BY_SLUG[slug] for slug in priority_city_slugs if slug in CITY_BY_SLUG]
     city_links = "".join(
-        f'<a href="{city_href(c["slug"])}">{c["name"]}</a>' for c in FEATURED_CITIES[:8]
+        f'<a href="{city_href(c["slug"])}">{c["name"]}</a>' for c in priority_cities
     )
     return f"""
           <h2>How We Scope {s['name']}</h2>
@@ -1258,6 +1295,111 @@ def service_scope_details(s: dict) -> str:
             <span>{s['name']} service areas:</span>
             {city_links}
           </div>"""
+
+
+def service_opportunity_section(s: dict) -> str:
+    sections = {
+        "brush-clearing": {
+            "heading": "Brush Removal Searches This Page Targets",
+            "body": (
+                "This page is tuned for property owners looking for brush removal services near me, brush clearing "
+                "near Auburndale, and overgrowth cleanup on Polk County lots. The best-fit jobs usually include "
+                "fence rows, pond banks, trails, field edges, and areas too thick for routine mowing."
+            ),
+            "links": [
+                ("Overgrowth removal", "overgrowth-removal.html"),
+                ("Fence line clearing", "fence-line-clearing.html"),
+                ("Trail clearing", "trail-clearing.html"),
+                ("Auburndale brush clearing", "areas/auburndale-fl.html"),
+                ("Lakeland brush clearing", "areas/lakeland-fl.html"),
+            ],
+        },
+        "access-road-clearing": {
+            "heading": "Private Road And Access Path Clearing",
+            "body": (
+                "GSC is already showing access-road and private-road intent around Mulberry and Eagle Lake. This "
+                "service is positioned for private roads, ranch lanes, driveway edges, long equipment paths, and "
+                "back-acreage routes that need brush cut back before vehicles or equipment can reach the work area."
+            ),
+            "links": [
+                ("Private road clearing in Mulberry", "areas/mulberry-fl.html"),
+                ("Access path clearing in Eagle Lake", "areas/eagle-lake-fl.html"),
+                ("Acreage cleanup", "acreage-cleanup.html"),
+                ("Trail clearing", "trail-clearing.html"),
+                ("Tractor services", "tractor-services.html"),
+            ],
+        },
+        "pond-bank-clearing": {
+            "heading": "Pond Bank And Retention Edge Intent",
+            "body": (
+                "This page focuses on pond bank clearing, retention pond edge cleanup, and private water-edge brush "
+                "removal in Polk County lake-country properties. It is meant for owners who need better access, "
+                "visibility, and a maintainable edge without engineered stormwater installation."
+            ),
+            "links": [
+                ("Pond cleanup", "pond-cleanup.html"),
+                ("Pond management", "pond-management.html"),
+                ("Winter Haven pond bank work", "areas/winter-haven-fl.html"),
+                ("Lakeland pond bank work", "areas/lakeland-fl.html"),
+                ("Auburndale pond bank work", "areas/auburndale-fl.html"),
+            ],
+        },
+        "ditch-maintenance": {
+            "heading": "Rain-Season Ditch Maintenance",
+            "body": (
+                "This page protects a current top-10 signal by staying tightly focused on ditch maintenance, swale "
+                "vegetation control, and runoff-path cleanup before heavy rain. It does not claim engineered drainage "
+                "or utility work; it explains the outdoor maintenance scope clearly."
+            ),
+            "links": [
+                ("Ditch clearing", "ditch-clearing.html"),
+                ("Property maintenance", "property-maintenance.html"),
+                ("Brush clearing", "brush-clearing.html"),
+                ("Auburndale ditch maintenance", "areas/auburndale-fl.html"),
+                ("Winter Haven ditch maintenance", "areas/winter-haven-fl.html"),
+            ],
+        },
+        "storm-debris-cleanup": {
+            "heading": "Post-Storm Cleanup And Blocked Access",
+            "body": (
+                "This page is built for storm debris cleanup searches where the property owner needs limbs, brush "
+                "piles, driveway obstructions, or access paths cleared fast. Calls and photo texts are emphasized "
+                "because storm cleanup intent is urgent."
+            ),
+            "links": [
+                ("Yard debris removal", "yard-debris-removal.html"),
+                ("Property cleanup", "property-cleanup.html"),
+                ("Access road clearing", "access-road-clearing.html"),
+                ("Lakeland storm cleanup", "areas/lakeland-fl.html"),
+                ("Winter Haven storm cleanup", "areas/winter-haven-fl.html"),
+            ],
+        },
+        "forestry-mulching": {
+            "heading": "Local Forestry Mulching Focus",
+            "body": (
+                "Search Console shows broad forestry mulching impressions from distant Florida cities. This page "
+                "narrows the relevance back to Auburndale, Lakeland, Winter Haven, and Polk County so rankings grow "
+                "around jobs Faith Works can actually win and service profitably."
+            ),
+            "links": [
+                ("Land clearing", "land-clearing.html"),
+                ("Brush clearing", "brush-clearing.html"),
+                ("Overgrowth removal", "overgrowth-removal.html"),
+                ("Mulberry acreage cleanup", "areas/mulberry-fl.html"),
+                ("Auburndale forestry mulching", "areas/auburndale-fl.html"),
+            ],
+        },
+    }
+    data = sections.get(s["slug"])
+    if not data:
+        return ""
+    links = "".join(f'<a href="{href}">{label}</a>' for label, href in data["links"])
+    return f"""
+          <section class="service-opportunity">
+            <h2>{data['heading']}</h2>
+            <p>{data['body']}</p>
+            <div class="area-card-links area-card-links--wrap">{links}</div>
+          </section>"""
 
 
 def service_faqs(s: dict) -> list[tuple[str, str]]:
@@ -1301,6 +1443,15 @@ def page_url(path: str) -> str:
 
 def schema_asset_url(relative_path: str) -> str:
     return f"{SITE['url'].rstrip('/')}/{relative_path.lstrip('/')}"
+
+
+def image_license_metadata() -> dict:
+    return {
+        "license": page_url(IMAGE_LICENSE_PAGE),
+        "acquireLicensePage": page_url("contact.html"),
+        "creditText": SITE["brand"],
+        "copyrightNotice": f"Copyright {SITE['legal_name']}",
+    }
 
 
 def schema_dict(value: str | dict) -> dict:
@@ -1494,6 +1645,16 @@ def estimate_form(
 ) -> str:
     subj = subject or f"New estimate request - {SITE['brand']}"
     page_field = f'<input type="hidden" name="page" value="{page}">' if page else ""
+    attribution_fields = f"""
+              <input type="hidden" name="page_url" value="">
+              <input type="hidden" name="page_title" value="">
+              <input type="hidden" name="referrer" value="">
+              <input type="hidden" name="utm_source" value="">
+              <input type="hidden" name="utm_medium" value="">
+              <input type="hidden" name="utm_campaign" value="">
+              <input type="hidden" name="utm_term" value="">
+              <input type="hidden" name="utm_content" value="">
+              <input type="hidden" name="form_id" value="{form_id}">"""
     form_class = "contact-form contact-form-hero" if compact else "contact-form"
     phone = SITE["phone_display"]
     action, method, enctype, mode_attr, provider = form_action_attrs(subj)
@@ -1556,6 +1717,7 @@ def estimate_form(
     return f"""
             <form class="{form_class}" action="{action}" method="{method}" id="{form_id}" enctype="{enctype}"{mode_attr}>
               {page_field}
+              {attribution_fields}
               {fields}
               <input type="hidden" name="_subject" value="{subj}">
               {provider_fields}
@@ -1942,6 +2104,7 @@ def image_object_schema(image: str, caption: str, page: str) -> str:
         "representativeOfPage": page == "index.html",
         "mainEntityOfPage": {"@id": f"{page_url(page)}#webpage"},
         "creator": {"@id": f"{SITE['url']}/#business"},
+        **image_license_metadata(),
     }, indent=2)
 
 
@@ -1957,6 +2120,7 @@ def gallery_image_graph_schema() -> str:
                 "caption": alt,
                 "name": label,
                 "creator": {"@id": f"{SITE['url']}/#business"},
+                **image_license_metadata(),
             }
             for img, alt, label in GALLERY
         ],
@@ -2112,6 +2276,8 @@ def write_index() -> None:
 
     {home_services_hub_section()}
 
+    {priority_visibility_cluster()}
+
     {home_faq_section()}
 
     <section id="contact" class="contact-section section-shell">
@@ -2180,6 +2346,7 @@ def write_service_page(s: dict) -> None:
           <ul>{ideal_for}</ul>
           <h2>Benefits</h2>
           <ul>{benefits}</ul>
+          {service_opportunity_section(s)}
           {service_scope_details(s)}
           {related}
           <h2>Owner-Operated Service</h2>
@@ -2201,7 +2368,7 @@ def write_service_page(s: dict) -> None:
     <section class="areas-strip">
       <div class="container">
         <p class="eyebrow">Where we work</p>
-        <p>Serving <strong>{'</strong>, <strong>'.join(c["name"] for c in FEATURED_CITIES[:8])}</strong>, plus nearby communities when the scope fits. <a href="service-areas.html">See all service areas &rarr;</a></p>
+        <p>Serving <strong>Auburndale</strong>, <strong>Lakeland</strong>, <strong>Winter Haven</strong>, <strong>Mulberry</strong>, <strong>Eagle Lake</strong>, and nearby Polk County communities when the scope fits. <a href="service-areas.html">See all service areas &rarr;</a></p>
       </div>
     </section>"""
 
@@ -2246,6 +2413,8 @@ def write_services() -> None:
     </section>
 
     {intent_router_section("services")}
+
+    {priority_visibility_cluster()}
 
     <section class="section-shell">
       <div class="container">
@@ -2904,6 +3073,33 @@ def write_privacy() -> None:
     )
 
 
+def write_image_use_policy() -> None:
+    policy_path = IMAGE_LICENSE_PAGE
+    policy_title = "Image Use Policy"
+    policy_desc = f"Image use and licensing information for photos owned by {SITE['legal_name']}."
+    body = f"""
+    <section class="sp-hero"><div class="container"><h1>Image Use Policy</h1><p>Photo ownership, credit, and licensing information for {SITE['brand']}.</p></div></section>
+    <section class="section-shell"><div class="container sp-content">
+      <h2>Faith Works-Owned Images</h2>
+      <p>Unless otherwise noted, images on this website are owned by {SITE['legal_name']} and show Faith Works equipment, work areas, or outdoor property service examples.</p>
+      <h2>Copyright And Credit</h2>
+      <p>Copyright {SITE['legal_name']}. Credit should be listed as <strong>{SITE['brand']}</strong> when permission is granted for use.</p>
+      <h2>Request Permission</h2>
+      <p>To request image usage permission, contact {SITE['owner']} through the <a href="contact.html">estimate and contact page</a> or email <a href="mailto:{SITE['email']}">{SITE['email']}</a>.</p>
+      <p>This page exists so image metadata can point to a stable license and permission URL for Google image search enhancement parsing.</p>
+    </div></section>"""
+    schema = page_schema_bundle(
+        policy_path,
+        business_schema(),
+        webpage_node(policy_title, policy_desc, policy_path),
+        breadcrumbs=[("Home", "index.html"), ("Image Use Policy", policy_path)],
+    )
+    write_site_file(
+        ROOT / IMAGE_LICENSE_PAGE,
+        page_shell(policy_title, policy_desc, policy_path, body, schema),
+    )
+
+
 def sitemap_priority(path: str) -> str:
     if path == "index.html":
         return "1.0"
@@ -2921,7 +3117,7 @@ def sitemap_priority(path: str) -> str:
 
 
 def write_sitemap() -> None:
-    pages = ["index.html", "services.html", "about.html", "contact.html", "gallery.html", "service-areas.html", "privacy-policy.html"]
+    pages = ["index.html", "services.html", "about.html", "contact.html", "gallery.html", "service-areas.html", "privacy-policy.html", IMAGE_LICENSE_PAGE]
     pages += [f"{s['slug']}.html" for s in SERVICES]
     pages += [f"areas/{c['slug']}.html" for c in AREA_CITIES]
     pages += [f"areas/{c['slug']}.html" for c in COUNTIES]
@@ -7383,6 +7579,7 @@ def cleanup_obsolete_pages() -> None:
             "gallery.html",
             "service-areas.html",
             "privacy-policy.html",
+            IMAGE_LICENSE_PAGE,
             "404.html",
             "thank-you.html",
         }
@@ -7418,6 +7615,7 @@ def main() -> None:
     write_service_areas()
     write_area_pages()
     write_privacy()
+    write_image_use_policy()
     write_404()
     write_sitemap()
     write_llms_files()

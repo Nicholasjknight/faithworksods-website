@@ -8,8 +8,8 @@ from city_profiles_remaining import REMAINING_CITY_PROFILES
 _BASE_CITY_PROFILES: dict[str, dict] = {
     "auburndale-fl": {
         "meta_description": (
-            "Land clearing, pond bank work, and ditch clearing in Auburndale, FL — Faith Works home base. "
-            "Owner-operated outdoor property services from 33823. Free photo estimates. Call (863) 272-1596."
+            "Auburndale land clearing, brush clearing, pond bank work, and ditch maintenance from Faith Works. "
+            "Owner-operated outdoor services from 33823. Call or text Tyler."
         ),
         "hook": (
             "Auburndale is where Faith Works Outdoor Services is headquartered — Tyler Edwards runs estimates, "
@@ -33,10 +33,10 @@ _BASE_CITY_PROFILES: dict[str, dict] = {
         ],
         "common_jobs": [
             "Clearing overgrown residential lots before listing or building",
+            "Brush removal around homes, sheds, and fence lines",
             "Pond bank brush removal along small Auburndale lakes",
             "Ditch and swale cleanup along county roads after summer growth",
             "Fence line reopening on acreage between Auburndale and Winter Haven",
-            "Forestry mulching on sapling-choked back parcels",
             "Storm debris haul-off after wind events in Polk County",
         ],
         "intent_routes": [
@@ -59,8 +59,8 @@ _BASE_CITY_PROFILES: dict[str, dict] = {
     },
     "winter-haven-fl": {
         "meta_description": (
-            "Land clearing and pond bank cleanup in Winter Haven, FL — Chain of Lakes property work. "
-            "Brush cutting, ditch clearing, and acreage cleanup from Auburndale. Free estimates."
+            "Winter Haven pond bank clearing, brush removal, land clearing, and storm debris cleanup. "
+            "Faith Works serves Chain of Lakes properties from nearby Auburndale."
         ),
         "hook": (
             "Winter Haven's Chain of Lakes geography puts pond edges, canal banks, and lake-adjacent lots "
@@ -84,10 +84,10 @@ _BASE_CITY_PROFILES: dict[str, dict] = {
         ],
         "common_jobs": [
             "Pond and canal bank brush removal for visibility and access",
+            "Brush removal around lake-country rear lots and fence lines",
             "Clearing overgrown rear lots before fencing or pool projects",
             "Ditch line vegetation removal after rainy-season growth",
             "Trail reopening across multi-acre Winter Haven parcels",
-            "Forestry mulching on lake-country undergrowth",
             "Storm debris cleanup along lakefront and tree-canopy neighborhoods",
         ],
         "intent_routes": [
@@ -110,8 +110,8 @@ _BASE_CITY_PROFILES: dict[str, dict] = {
     },
     "lakeland-fl": {
         "meta_description": (
-            "Land clearing, brush cutting, and pond work in Lakeland, FL. Faith Works serves in-town lots, "
-            "lakefront acreage, and south Polk parcels from Auburndale. Photo-based estimates."
+            "Lakeland brush clearing, land clearing, pond bank cleanup, and acreage cleanup from Faith Works. "
+            "Photo-based estimates for lakefront, rear-lot, and south Polk properties."
         ),
         "hook": (
             "Lakeland spans from historic lakefront neighborhoods around Lake Morton and Lake Hollingsworth "
@@ -135,10 +135,10 @@ _BASE_CITY_PROFILES: dict[str, dict] = {
         ],
         "common_jobs": [
             "Rear acreage brush clearing on oversized Lakeland lots",
+            "Brush removal where wooded buffers meet homes and outbuildings",
             "Pond and lake edge cleanup on private water features",
             "Land clearing before fencing, barns, or outbuildings",
             "Forestry mulching on sapling-choked sections",
-            "Property cleanup for listings and estate transitions",
             "Ditch and swale maintenance on drainage easements",
         ],
         "intent_routes": [

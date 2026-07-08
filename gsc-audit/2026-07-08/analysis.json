@@ -1,0 +1,665 @@
+{
+  "summary": {
+    "totals": {
+      "clicks": 9,
+      "impressions": 761,
+      "ctr": 0.011826544021024968,
+      "position": 54.88304862023653
+    },
+    "queryCount": 142,
+    "pageCount": 54,
+    "commercialQueryCount": 142,
+    "brandQueryCount": 0,
+    "sitemapCount": 1,
+    "inspectedUrlCount": 12,
+    "findingCount": 8,
+    "uiReportCount": 12,
+    "uiDownloadCount": 4
+  },
+  "findings": [
+    {
+      "severity": "medium",
+      "area": "performance",
+      "title": "Average position is weak",
+      "detail": "Average position is 54.9 across the selected period."
+    },
+    {
+      "severity": "medium",
+      "area": "opportunity",
+      "title": "Quick-win queries in positions 4–20",
+      "detail": "1 commercial queries are close to page one with meaningful impressions."
+    },
+    {
+      "severity": "high",
+      "area": "indexing",
+      "title": "GSC Pages report shows not-indexed URLs",
+      "detail": "UI export of the Pages indexing report indicates URLs are not indexed. See ui/index-pages.json."
+    },
+    {
+      "severity": "high",
+      "area": "experience",
+      "title": "GSC HTTPS report shows issues",
+      "detail": "HTTPS report from GSC UI contains issue indicators. See ui/https.json."
+    },
+    {
+      "severity": "medium",
+      "area": "enhancements",
+      "title": "Enhancement issue: breadcrumbs",
+      "detail": "GSC enhancement report \"breadcrumbs\" shows potential issues. See ui/breadcrumbs.json."
+    },
+    {
+      "severity": "medium",
+      "area": "enhancements",
+      "title": "Enhancement issue: image-licenses",
+      "detail": "GSC enhancement report \"image-licenses\" shows potential issues. See ui/image-licenses.json."
+    },
+    {
+      "severity": "high",
+      "area": "security",
+      "title": "Manual actions may be present",
+      "detail": "Review ui/manual-actions.json — GSC manual actions report should be checked."
+    },
+    {
+      "severity": "high",
+      "area": "security",
+      "title": "Security issues may be present",
+      "detail": "Review ui/security-issues.json — GSC security report should be checked."
+    }
+  ],
+  "opportunities": {
+    "quickWins": [
+      {
+        "query": "private roads mulberry",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 19.9
+      }
+    ],
+    "lowCtrHighImpressions": [],
+    "topQueries": [
+      {
+        "query": "forestry mulching services new smyrna, fl",
+        "clicks": 0,
+        "impressions": 24,
+        "ctr": 0,
+        "position": 86.625
+      },
+      {
+        "query": "brush clearing services near me",
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 55.666666666666664
+      },
+      {
+        "query": "tree root removal sumter fl",
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 87.66666666666667
+      },
+      {
+        "query": "driveway clearing branford fl",
+        "clicks": 0,
+        "impressions": 17,
+        "ctr": 0,
+        "position": 79.52941176470588
+      },
+      {
+        "query": "land clearing in bunnell fl",
+        "clicks": 0,
+        "impressions": 16,
+        "ctr": 0,
+        "position": 80.3125
+      },
+      {
+        "query": "driveway excavation in sumter county fl",
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 86.46153846153847
+      },
+      {
+        "query": "fence line clearing branford fl",
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 87.84615384615384
+      },
+      {
+        "query": "foundation excavation services bradenton",
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 84.3076923076923
+      },
+      {
+        "query": "forestry mulching in interlachen fl",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 89.16666666666667
+      },
+      {
+        "query": "gravel and grading eagle lake",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 22.083333333333332
+      },
+      {
+        "query": "storm damage cleanup leesburg florida",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 80.33333333333333
+      },
+      {
+        "query": "excavation company near me bradenton",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 65.63636363636364
+      },
+      {
+        "query": "gravel and grading east mulberry",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 40.54545454545455
+      },
+      {
+        "query": "pond bank clearing",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 27.636363636363637
+      },
+      {
+        "query": "trenching contractor orlando",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 82.72727272727273
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://faithworksclearing.com/storm-debris-cleanup.html",
+        "clicks": 1,
+        "impressions": 62,
+        "ctr": 0.016129032258064516,
+        "position": 76.38709677419355
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/bradenton-fl.html",
+        "clicks": 0,
+        "impressions": 62,
+        "ctr": 0,
+        "position": 70.19354838709677
+      },
+      {
+        "page": "https://faithworksclearing.com/",
+        "clicks": 2,
+        "impressions": 61,
+        "ctr": 0.03278688524590164,
+        "position": 21.40983606557377
+      },
+      {
+        "page": "https://faithworksclearing.com/forestry-mulching.html",
+        "clicks": 0,
+        "impressions": 59,
+        "ctr": 0,
+        "position": 81.77966101694915
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/sumter-county-fl.html",
+        "clicks": 0,
+        "impressions": 48,
+        "ctr": 0,
+        "position": 80.375
+      },
+      {
+        "page": "https://faithworksclearing.com/pond-management.html",
+        "clicks": 0,
+        "impressions": 46,
+        "ctr": 0,
+        "position": 56.97826086956522
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/mulberry-fl.html",
+        "clicks": 0,
+        "impressions": 35,
+        "ctr": 0,
+        "position": 31.257142857142856
+      },
+      {
+        "page": "https://faithworksclearing.com/pool-dig-out-support.html",
+        "clicks": 0,
+        "impressions": 33,
+        "ctr": 0,
+        "position": 60.54545454545455
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/bushnell-fl.html",
+        "clicks": 0,
+        "impressions": 32,
+        "ctr": 0,
+        "position": 63.96875
+      },
+      {
+        "page": "https://faithworksclearing.com/brush-clearing.html",
+        "clicks": 0,
+        "impressions": 31,
+        "ctr": 0,
+        "position": 59.935483870967744
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/frostproof-fl.html",
+        "clicks": 0,
+        "impressions": 29,
+        "ctr": 0,
+        "position": 51.48275862068966
+      },
+      {
+        "page": "https://faithworksclearing.com/property-maintenance.html",
+        "clicks": 0,
+        "impressions": 29,
+        "ctr": 0,
+        "position": 60.96551724137931
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/eagle-lake-fl.html",
+        "clicks": 0,
+        "impressions": 23,
+        "ctr": 0,
+        "position": 38.30434782608695
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/auburndale-fl.html",
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 46.04761904761905
+      },
+      {
+        "page": "https://faithworksclearing.com/areas/tampa-fl.html",
+        "clicks": 0,
+        "impressions": 21,
+        "ctr": 0,
+        "position": 50.61904761904762
+      }
+    ]
+  },
+  "indexing": {
+    "sitemapIssues": [],
+    "inspectionIssues": []
+  },
+  "ui": {
+    "exportedAt": "2026-07-08T13:59:38.758Z",
+    "propertyUrl": "sc-domain:faithworksclearing.com",
+    "site": "faithworksclearing.com",
+    "outputRoot": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui",
+    "layout": "ui/<group>/<report-id>/",
+    "reportCount": 12,
+    "downloaded": 4,
+    "scraped": 4,
+    "errors": [],
+    "reports": [
+      {
+        "id": "index-pages",
+        "label": "Pages indexing",
+        "group": "indexing",
+        "url": "https://search.google.com/search-console/index?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "indexing\\index-pages",
+        "title": "Page indexing",
+        "exportedAt": "2026-07-08T13:58:10.216Z",
+        "download": {
+          "file": "index-pages.zip",
+          "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\indexing\\index-pages\\index-pages.zip",
+          "suggestedFilename": "faithworksclearing.com-Coverage-2026-07-08.zip",
+          "format": "zip"
+        },
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "All known pages\nAll submitted pages\nUnsubmitted pages only\nhttps://faithworksclearing.com/sitemap.xml\nLast update: 6/29/26",
+          "Last update: 6/29/26",
+          "\nNot indexed\n42\n3 reasons\n",
+          "\nNot indexed\n42\n3 reasons",
+          "3 reasons",
+          "\nIndexed\n43\n",
+          "\nIndexed\n43",
+          "100",
+          "250",
+          "500",
+          "1-3 of 3\n",
+          "1-3 of 3"
+        ],
+        "tableRowCount": 4
+      },
+      {
+        "id": "index-videos",
+        "label": "Video pages",
+        "group": "indexing",
+        "url": "https://search.google.com/search-console/video-index?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "indexing\\index-videos",
+        "title": "Video indexing",
+        "exportedAt": "2026-07-08T13:58:14.243Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "All known pages\nLast update: 7/5/26\n\nWe did not find any data\nPlease check back later",
+          "All known pages\nLast update: 7/5/26",
+          "Last update: 7/5/26"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "sitemaps",
+        "label": "Sitemaps",
+        "group": "indexing",
+        "url": "https://search.google.com/search-console/sitemaps?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "indexing\\sitemaps",
+        "title": "Sitemaps",
+        "exportedAt": "2026-07-08T13:58:38.279Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Jun 21, 2026",
+          "Jun 22, 2026",
+          "100",
+          "250",
+          "500",
+          "1-1 of 1\n",
+          "1-1 of 1"
+        ],
+        "tableRowCount": 2
+      },
+      {
+        "id": "removals",
+        "label": "Removals",
+        "group": "indexing",
+        "url": "https://search.google.com/search-console/removals?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "indexing\\removals",
+        "title": "Removals",
+        "exportedAt": "2026-07-08T13:58:42.238Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "History of all temporary page removal requests for this property, filed by any owner or full user in the past 6 months, using this report. Learn more",
+          "The type of request:\n\n\n  Temporarily remove URL: Remove the page from Google Search Results for about 6 months after request approval date.\n  Clear cached URL: Clear the cached version of the page and the snippet until the next time the page is indexed.",
+          "No requests submitted in the last 6 months",
+          "Submitted requestsHistory of all submitted requests for this property in the past 6 months using the public Remove Outdated Content tool.\n",
+          "Submitted requestsHistory of all submitted requests for this property in the past 6 months using the public Remove Outdated Content tool.",
+          "History of all submitted requests for this property in the past 6 months using the public Remove Outdated Content tool.",
+          "History of all submitted requests for this property in the past 6 months using the public Remove Outdated Content tool.",
+          "Submitted requestsGoogle users reported these URLs as containing explicit content in the past 6 months. If you feel that a URL marked Filtered was incorrectly labeled as explicit, you can file an appeal.\nURLRequestedStatusNo requests submitted in the last 6 months",
+          "Submitted requestsGoogle users reported these URLs as containing explicit content in the past 6 months. If you feel that a URL marked Filtered was incorrectly labeled as explicit, you can file an appeal.\n",
+          "Submitted requestsGoogle users reported these URLs as containing explicit content in the past 6 months. If you feel that a URL marked Filtered was incorrectly labeled as explicit, you can file an appeal.",
+          "Google users reported these URLs as containing explicit content in the past 6 months. If you feel that a URL marked Filtered was incorrectly labeled as explicit, you can file an appeal.",
+          "Google users reported these URLs as containing explicit content in the past 6 months. If you feel that a URL marked Filtered was incorrectly labeled as explicit, you can file an appeal."
+        ],
+        "tableRowCount": 3
+      },
+      {
+        "id": "core-web-vitals",
+        "label": "Core Web Vitals",
+        "group": "experience",
+        "url": "https://search.google.com/search-console/core-web-vitals?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "experience\\core-web-vitals",
+        "title": "Core Web Vitals",
+        "exportedAt": "2026-07-08T13:58:46.302Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Source: Chrome UX report\n\nLast updated: 7/6/26",
+          "Last updated: 7/6/26",
+          "Mobile\nOPEN REPORT\n\nNot enough usage data in the last 90 days for this device type.\nLearn more\nTry PageSpeed Insights",
+          "Not enough usage data in the last 90 days for this device type.\nLearn more\nTry PageSpeed Insights",
+          "Not enough usage data in the last 90 days for this device type.\nLearn more",
+          "Not enough usage data in the last 90 days for this device type.",
+          "Desktop\nOPEN REPORT\n\nNot enough usage data in the last 90 days for this device type.\nLearn more\nTry PageSpeed Insights"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "https",
+        "label": "HTTPS",
+        "group": "experience",
+        "url": "https://search.google.com/search-console/https?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "experience\\https",
+        "title": "HTTPS",
+        "exportedAt": "2026-07-08T13:58:51.607Z",
+        "download": {
+          "file": "https.zip",
+          "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\experience\\https\\https.zip",
+          "suggestedFilename": "faithworksclearing.com-Https-2026-07-08.zip",
+          "format": "zip"
+        },
+        "summaryLines": [
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Last update: 7/7/26",
+          "\nNon-HTTPS URLs\n0\nNo critical issues\n",
+          "\nNon-HTTPS URLs\n0\nNo critical issues",
+          "\nHTTPS URLs\n75\n",
+          "\nHTTPS URLs\n75",
+          "Good job!\nNo issues detected in the last 90 days",
+          "No issues detected in the last 90 days",
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "manual-actions",
+        "label": "Manual actions",
+        "group": "security",
+        "url": "https://search.google.com/search-console/manual-actions?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "security\\manual-actions",
+        "title": "Manual actions",
+        "exportedAt": "2026-07-08T13:58:55.573Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "security-issues",
+        "label": "Security issues",
+        "group": "security",
+        "url": "https://search.google.com/search-console/security-issues?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "security\\security-issues",
+        "title": "Security issues",
+        "exportedAt": "2026-07-08T13:58:59.531Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "links",
+        "label": "Links",
+        "group": "other",
+        "url": "https://search.google.com/search-console/links?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "other\\links",
+        "title": "Links",
+        "exportedAt": "2026-07-08T13:59:03.374Z",
+        "download": null,
+        "summaryLines": [
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com",
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "breadcrumbs",
+        "label": "breadcrumbs",
+        "group": "enhancements",
+        "url": "https://search.google.com/search-console/r/breadcrumbs?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "enhancements\\breadcrumbs",
+        "title": "Breadcrumbs",
+        "exportedAt": "2026-07-08T13:59:08.962Z",
+        "download": {
+          "file": "breadcrumbs.zip",
+          "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\enhancements\\breadcrumbs\\breadcrumbs.zip",
+          "suggestedFilename": "faithworksclearing.com-Breadcrumbs-2026-07-08.zip",
+          "format": "zip"
+        },
+        "summaryLines": [
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Last update: 7/6/26",
+          "\nInvalid\n0\nNo critical issues\n",
+          "\nInvalid\n0\nNo critical issues",
+          "\nValid\n75\n",
+          "\nValid\n75",
+          "Good job!\nNo issues detected in the last 90 days",
+          "No issues detected in the last 90 days",
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com"
+        ],
+        "tableRowCount": 0
+      },
+      {
+        "id": "image-licenses",
+        "label": "image-licenses",
+        "group": "enhancements",
+        "url": "https://search.google.com/search-console/r/image-licenses?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "enhancements\\image-licenses",
+        "title": "Image Metadata",
+        "exportedAt": "2026-07-08T13:59:14.712Z",
+        "download": {
+          "file": "image-licenses.zip",
+          "path": "E:\\GSC Auditer\\runs\\2026-07-08\\faithworksclearing.com\\ui\\enhancements\\image-licenses\\image-licenses.zip",
+          "suggestedFilename": "faithworksclearing.com-Image Metadata-2026-07-08.zip",
+          "format": "zip"
+        },
+        "summaryLines": [
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Last update: 7/6/26",
+          "\nInvalid\n0\nNo critical issues\n",
+          "\nInvalid\n0\nNo critical issues",
+          "\nValid\n13\n",
+          "\nValid\n13",
+          "100",
+          "250",
+          "500",
+          "1-4 of 4\n",
+          "1-4 of 4",
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com"
+        ],
+        "tableRowCount": 5
+      },
+      {
+        "id": "achievements",
+        "label": "achievements",
+        "group": "enhancements",
+        "url": "https://search.google.com/search-console/achievements?resource_id=sc-domain%3Afaithworksclearing.com",
+        "outputDir": "enhancements\\achievements",
+        "title": "Achievements",
+        "exportedAt": "2026-07-08T13:59:38.638Z",
+        "download": null,
+        "summaryLines": [
+          "\n\t\n4",
+          "\n4",
+          "lightbulb_2\nInsights",
+          "lightbulb_2",
+          "link_2\nLinks\ntrophy\nAchievements\nsettings\nSettings",
+          "link_2\nLinks",
+          "link_2",
+          "Achievements\nAchievements\nTrack progress and celebrate happy moments in your site's journey. Learn more and get tips\n\nWe're gathering data, \nplease check back in about 12 days",
+          "Achievements\nTrack progress and celebrate happy moments in your site's journey. Learn more and get tips\n\nWe're gathering data, \nplease check back in about 12 days",
+          "\nWe're gathering data, \nplease check back in about 12 days",
+          "We're gathering data, \nplease check back in about 12 days",
+          "Google AccountNicholas Knightnickknight488@gmail.com",
+          "nickknight488@gmail.com"
+        ],
+        "tableRowCount": 0
+      }
+    ]
+  }
+}
