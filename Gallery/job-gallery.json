@@ -1,5 +1,15 @@
 {
   "version": 1,
   "brand": "fw",
-  "projects": []
+  "projects": [
+    {
+      "id": "before-process-after-brush-cleanup-along-fence-line-haul-debris-site-452d77cf",
+      "title": "Brush cleanup along fence line; haul debris; site left broom-clean. Demo ticket for .50 Stripe minimum checkout preview.",
+      "summary": "Before, process, and after project proof from Faith Works Outdoor Services LLC.",
+      "image": "Gallery/before-process-after-brush-cleanup-along-fence-line-haul-debris-site-452d77cf.webp",
+      "social_image": "Gallery/before-process-after-brush-cleanup-along-fence-line-haul-debris-site-452d77cf-social.jpg",
+      "detail_url": "gallery/before-process-after-brush-cleanup-along-fence-line-haul-debris-site-452d77cf.html",
+      "published_at": "2026-07-19T02:23:19.908140+00:00"
+    }
+  ]
 }
