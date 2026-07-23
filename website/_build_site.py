@@ -6059,6 +6059,8 @@ html.fw-js [data-fw-enter].is-visible {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 10px 14px;
   margin-bottom: 22px;
   padding-bottom: 18px;
@@ -6083,10 +6085,11 @@ html.fw-js [data-fw-enter].is-visible {
   font-size: 1rem;
 }
 .fw-reviews-summary {
-  width: 100%;
+  width: auto;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--muted);
+  text-align: center;
 }
 .fw-review-carousel {
   display: flex;
